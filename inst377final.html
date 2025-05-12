@@ -1,0 +1,232 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="inst377finalstyle.css">
+    </head>
+    <body>
+        <div id="home-container">
+            <div id="home-container2">
+                <h1>Welcome to AniList Recommender!</h1>
+                <form>
+                    <input id="username" type="text" placeholder="Username">
+                </form>
+                <button>Go!</button>
+            </div>
+        </div>
+        <aside id="nav">
+            <div id="nav2">
+                <a href="inst377final.html">Login</a>
+                <a href="inst377finalabout.html">About</a>
+                <a href="inst377finalhelp.html">Help</a>
+                <a href="inst377finalmain.html">Main</a>
+            </div>
+        </aside>
+    </body>
+    <script>
+// Here we define our query as a multi-line string
+// Storing it in a separate .graphql/.gql file is also possible
+var query = `
+query ($type: MediaType!, $status: [MediaListStatus!], $userName: String) {
+  MediaListCollection(type: $type, status_in: $status, userName: $userName) {
+    lists {
+      entries {
+        id
+        score
+        media {
+          id
+          title {
+            romaji
+			english
+          }
+          genres
+          tags {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+// Define our query variables and values that will be used in the query request
+var variables = {
+    userName: 'magkuette',
+    status: ['COMPLETED', 'REPEATING', 'CURRENT'],
+    type: 'ANIME'
+};
+
+// Define the config we'll need for our Api request
+var url = 'https://graphql.anilist.co',
+    options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query: query,
+            variables: variables
+        })
+    };
+
+// Make the HTTP Api request
+fetch(url, options).then(handleResponse)
+    .then(handleData)
+    .catch(handleError);
+
+function handleResponse(response) {
+    return response.json().then(function (json) {
+        return response.ok ? json : Promise.reject(json);
+    });
+}
+
+function handleData(data) {
+    console.log(data);
+}
+
+function handleError(error) {
+    alert('Error, check console');
+    console.error(error);
+}
+
+// var query = `
+// query ($type: MediaType!, $status: MediaListStatus!, $userName: String) {
+//   MediaListCollection(type: $type, status: $status, userName: $userName) {
+//     lists {
+//       name
+//       entries {
+//         id
+//         score
+//         media {
+//           id
+//           title {
+//             romaji
+//           }
+//           genres
+//           tags {
+//             name
+//           }
+//         }
+//       }
+//     }
+//     user {
+//         favourites {
+//             anime {
+//                 edges {
+//                     node {
+//                         title {
+//                          romaji}}}}
+//             }}
+//   }
+// }
+
+
+// `;
+
+// // Define our query variables and values that will be used in the query request
+// var variables = {
+//     userName: 'magkuette',
+//     status: 'COMPLETED',
+//     type: 'ANIME'
+// };
+
+// // Define the config we'll need for our Api request
+// var url = 'https://graphql.anilist.co',
+//     options = {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json',
+//         },
+//         body: JSON.stringify({
+//             query: query,
+//             variables: variables
+//         })
+//     };
+
+// // Make the HTTP Api request
+// fetch(url, options).then(handleResponse)
+//     .then(handleData)
+//     .catch(handleError);
+
+// function handleResponse(response) {
+//     return response.json().then(function (json) {
+//         return response.ok ? json : Promise.reject(json);
+//     });
+// }
+
+// function handleData(data) {
+//     console.log(data);
+// }
+
+// function handleError(error) {
+//     alert('Error, check console');
+//     console.error(error);
+// }
+
+var query = `
+query ($type: MediaType!, $perPage: Int, $page: Int, $genre: [String]) {
+  Page(perPage: $perPage, page: $page) {
+		media(type: $type, genre_in: $genre) {
+			title {
+				romaji
+				english
+			}
+			genres
+		}
+  }
+}
+
+
+
+`;
+
+// Define our query variables and values that will be used in the query request
+var variables =
+{
+	"type": "ANIME",
+	"perPage": 50,
+	"page": 1,
+	"genre": [
+		"Romance",
+		"Comedy"
+	]
+}
+;
+
+// Define the config we'll need for our Api request
+var url = 'https://graphql.anilist.co',
+    options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query: query,
+            variables: variables
+        })
+    };
+
+// Make the HTTP Api request
+fetch(url, options).then(handleResponse)
+    .then(handleData)
+    .catch(handleError);
+
+function handleResponse(response) {
+    return response.json().then(function (json) {
+        return response.ok ? json : Promise.reject(json);
+    });
+}
+
+function handleData(data) {
+    console.log(data);
+}
+
+function handleError(error) {
+    alert('Error, check console');
+    console.error(error);
+}
+
+    </script>
+</html>
