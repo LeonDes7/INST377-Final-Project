@@ -1,4 +1,39 @@
+<!DOCTYPE html>
 <html>
+<head>
+  <meta charset="UTF-8" />
+  <title>AniList Recommender</title>
+  <link rel="stylesheet" href="inst377finalstyle.css" />
+</head>
+<body>
+  <div id="home-container">
+    <div id="home-container2">
+      <h1>Welcome to AniList Recommender!</h1>
+
+      <form id="recommendation-form" autocomplete="off">
+        <input type="text" id="username" name="username" placeholder="Username" required />
+        <input type="text" id="anime-title" name="anime-title" placeholder="Anime Title" required />
+        <input type="number" id="score" name="score" placeholder="Score (e.g. 8.5)" step="0.1" required />
+        <button type="submit">Save Recommendation</button>
+      </form>
+
+      <p id="status"></p>
+    </div>
+  </div>
+
+  <aside id="nav">
+    <div id="nav2">
+      <a href="inst377finalabout.html">About</a>
+      <a href="inst377finalhelp.html">Help</a>
+    </div>
+  </aside>
+
+  <script type="module" src="login.js"></script>
+</body>
+</html>
+
+
+<!-- <html
 
 
     <head>
@@ -233,4 +268,4 @@ function handleError(error) {
 }
 
     </script>
-</html>
+</html> -->

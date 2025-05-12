@@ -14,6 +14,48 @@
 #nav {
     position: fixed;
     display: flex;
+    bottom: 0;
+    right: 0;
+    height: auto;
+    width: auto;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color: transparent;
+    z-index: 10; 
+}
+
+#nav2 {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.about-help-container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    width: 1000px;
+    margin: auto;
+}
+
+
+/* #home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#home-container2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#nav {
+    position: fixed;
+    display: flex;
     top: 0;
     left: 0;
     height: 100%;
@@ -37,4 +79,4 @@
     margin: auto;
 }
 
-
+ */
