@@ -24,7 +24,7 @@
         </aside>
     </body>
     <script>
-// Here we define our query as a multi-line string
+// Here we define our query as a multi-line string, we did it
 // Storing it in a separate .graphql/.gql file is also possible
 var query = `
 query ($type: MediaType!, $status: [MediaListStatus!], $userName: String) {
@@ -36,6 +36,7 @@ query ($type: MediaType!, $status: [MediaListStatus!], $userName: String) {
         media {
           id
           title {
+
             romaji
 			english
           }
