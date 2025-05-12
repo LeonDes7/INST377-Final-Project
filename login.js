@@ -1,4 +1,4 @@
-const clientId = '26793'; 
+const clientId = '17264'; 
 const redirectUri = 'https://anilist.co/api/v2/oauth/pin'; 
 
 document.addEventListener('DOMContentLoaded', () => {
