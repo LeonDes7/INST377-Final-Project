@@ -14,18 +14,27 @@
           generate anime
           toggle between english and romaji
             -->
-        <p id="username1">username</p>  
-        <input type="text" placeholder="Second username">
-    </body>
-    <aside id="nav">
-        <div id="nav2">
-            <a href="inst377final.html">Login</a>
-            <a href="inst377finalabout.html">About</a>
-            <a href="inst377finalhelp.html">Help</a>
+        <div id="home-container">
+            <div id="home-container2">
+                <h1>Welcome to AniList Recommender!</h1>
+
+                <form id="recommendation-form" autocomplete="off">
+                    <input type="text" id="username" name="username" placeholder="Username" required />
+                    <input type="text" id="anime-title" name="anime-title" placeholder="Anime Title" required />
+                    <input type="number" id="score" name="score" placeholder="Score (e.g. 8.5)" step="0.1" required />
+                    <button type="submit">Save Recommendation</button>
+                </form>
+
+                <p id="status"></p>
+            </div>
         </div>
-    </aside>
-    <script>
-        document.getElementById("username1").innerHTML = "testingg"
-        document.getElementById("username").value;
-    </script>
+        <aside id="nav">
+            <div id="nav2">
+                <a href="inst377final.html">Log out</a>
+                <a href="inst377finalabout.html">About</a>
+                <a href="inst377finalhelp.html">Help</a>
+            </div>
+        </aside>
+    </body>
+    <script type="module" src="login.js"></script>
 </html>
