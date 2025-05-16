@@ -8,29 +8,22 @@
     </head>
     <body>
         <div id="background-gradient"></div>
-        <!-- plan
-         text input username
-         second text input username optional
-          genre checkboxes
-          tag checkboxes
-          status checkboxes
-          score text input
-
-          generate anime
-          toggle between english and romaji
-            -->
         <div id="home-container">
             <div id="home-container2">
                  <form>
+                    <input type="text" placeholder="Second username">
                     <input id="genre-filters" placeholder="Genre">
                     <input id="tag-filters" placeholder="Tag">
-                    <label for="completed">Completed</label>
-                    <input id="completed" type="checkbox" value="completed">
-                    <label for="current">Current</label>
-                    <input id="current" type="checkbox" value="current">
-                    <label for="repeating">Rewatching</label>
-                    <input id="repeating" type="checkbox" value="repeating">
-                    <input type="number" placeholder="Score">
+                    <label for="finished">Finished</label>
+                    <input id="finished" type="checkbox" value="finished">
+                    <label for="releasing">Releasing</label>
+                    <input id="releasing" type="checkbox" value="releasing">
+                    <label for="not_yet_released">Not yet released</label>
+                    <input id="not_yet_released" type="checkbox" value="not_yet_released">
+                    <label for="cancelled">Cancelled</label>
+                    <input id="cancelled" type="checkbox" value="cancelled">
+                    <label for="hiatus">Hiatus</label>
+                    <input id="hiatus" type="checkbox" value="hiatus">
                 </form>
                 <button onclick="filterFunction()">Submit</button>
 

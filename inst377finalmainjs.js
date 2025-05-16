@@ -1,3 +1,22 @@
+// user need: find recommended anime
+// option 1: find recommended anime based off one's list
+// input genres and tags. from this, the program will find NEW anime with those genres and tags that are NOT in the user's anime list.
+// therefore, the program will fetch anime from the user's list and use that anime to single out anime they have watched so as to not include it in recommendations (fetch 1)
+// users can choose between new anime that are completed, ongoing, or any
+// recommendations will generate based off user query (fetch 2)
+// users can toggle between romaji and english
+// option 2: find recommended anime from another person's list based off one's list
+// input genres, tags, status, other username (fetch 3)
+// this option exists to achieve the third frontend fetch requirement
+// this fetch will be a similar structure as fetch 1, only the userName variable will be different
+// users can input status_in and maybe scores. status_in would be easy to put in the query variables but scores cannot.
+
+// therefore this is what's needed on the html
+// input optional second username
+// might want to move login page to this page
+// genres filters - done
+// tags filters - done
+// status checkboxes - done
 const inputGenre = document.getElementById("genre-filters");
     genreWhitelist = ["action", "adventure", "comedy", "drama", "ecchi", "fantasy", "horror", "mahou shoujo", "mecha", "music", "mystery", "psychological", "romance", "sci-fi", "slice of life",
         "sports", "supernatural", "thriller"];
@@ -11,6 +30,7 @@ const inputGenre = document.getElementById("genre-filters");
         originalInputValueFormat: genres => genres.map(index => index.value)
 });
 
+// these aren't all the tags but i'm probably gonna leave some out
 const inputTag = document.getElementById("tag-filters");
     genreWhitelist = ["4-koma", "achromatic", "achronological order", "acrobatics", "acting", "adoption", "advertisement", "afterlife",
         "age gap", "age regression", "agender", "agriculture", "airsoft", "alchemy", "aliens", "alternate universe", "american football",
@@ -32,8 +52,9 @@ const inputTag = document.getElementById("tag-filters");
     // Use whitelist tags
     whitelist: genreWhitelist,
     originalInputValueFormat: tags => tags.map(index => index.value)
-
 });
+
+
 
 function filterFunction() {
     const genreFilters = document.getElementById("genre-filters").value.split(',');
@@ -43,63 +64,78 @@ function filterFunction() {
 
     const statusList = [];
     console.log("statusList before",statusList);
-    if (document.getElementById("completed").checked == false) {
-        console.log("completed is unchecked");
+    if (document.getElementById("finished").checked == false) {
+        console.log("finished is unchecked");
     }
     else {
-        console.log("completed is checked");
-        statusList.push("COMPLETED");
+        console.log("finished is checked");
+        statusList.push("FINISHED");
     }
 
-    if (document.getElementById("current").checked == false) {
-        console.log("current is unchecked");
+    if (document.getElementById("releasing").checked == false) {
+        console.log("releasing is unchecked");
     }
     else {
-        console.log("current is checked");
-        statusList.push("CURRENT");
+        console.log("releasing is checked");
+        statusList.push("RELEASING");
     }
 
-    if (document.getElementById("repeating").checked == false) {
-        console.log("repeating is unchecked");
+    if (document.getElementById("not_yet_released").checked == false) {
+        console.log("not yet released is unchecked");
     }
     else {
-        console.log("repeating is checked");
-        statusList.push("REPEATING");
+        console.log("not_yet_released is checked");
+        statusList.push("NOT_YET_RELEASED");
+    }
+
+    if (document.getElementById("cancelled").checked == false) {
+        console.log("cancelled is unchecked");
+    }
+    else {
+        console.log("cancelled is checked");
+        statusList.push("CANCELLED");
+    }
+
+    if (document.getElementById("hiatus").checked == false) {
+        console.log("hiatus is unchecked");
+    }
+    else {
+        console.log("hiatus is checked");
+        statusList.push("HIATUS");
     }
     console.log("statusList after",statusList);
 
 
 
-    // Query for getting completed, repeating, and current anime list scores
-    // can probably remove genres and tags
+    // Query for anime list
     var query = `
-        query ($type: MediaType!, $status: [MediaListStatus!], $userName: String) {
-        MediaListCollection(type: $type, status_in: $status, userName: $userName) {
+        query ($type: MediaType, $userName: String, $status: [MediaListStatus]) {
+        MediaListCollection(type: $type, userName: $userName, status_in: $status) {
         lists {
             entries {
-            score
             media {
                 title {
                 romaji
                 english
                 }
-                genres
-                tags {
-                name
-                }
             }
             }
         }
         }
-        }
-        `;
+        }`;
 
     // Variables for query request
         var variables = {
-            userName: 'magkuette',
-            status: statusList,
-            type: 'ANIME'
-        };
+	"userName": "magkuette",
+	"type": "ANIME",
+	"status_in": [
+		"CURRENT",
+		"COMPLETED",
+		"DROPPED",
+		"PAUSED",
+		"REPEATING"
+	]
+};
 
         var url = 'https://graphql.anilist.co',
         options = {
@@ -138,9 +174,9 @@ function filterFunction() {
 // Query for getting any anime from the anilist database (this will based off a user's anime list later on)
 
     var query = `
-        query ($type: MediaType!, $perPage: Int, $page: Int, $genre: [String], $tag: [String]) {
+        query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [String], $status: [MediaStatus]) {
         Page(perPage: $perPage, page: $page) {
-            media(type: $type, genre_in: $genre, tag_in: $tag) {
+            media(type: $type, genre_in: $genre, tag_in: $tag, status_in: $status) {
                 title {
                     romaji
                     english
@@ -161,7 +197,8 @@ function filterFunction() {
         "perPage": 50,
         "page": 1,
         "genre": genreFilters,
-        "tag": tagFilters
+        "tag": tagFilters,
+        "status": statusList
     };
 
     // Define the config we'll need for our Api request
@@ -198,6 +235,71 @@ function filterFunction() {
         alert('Error, check console');
         console.error(error);
         }
+// Compare with another username
+        var query = `
+        query ($type: MediaType, $userName: String, $status: [MediaListStatus]) {
+        MediaListCollection(type: $type, userName: $userName, status_in: $status) {
+        lists {
+            entries {
+            media {
+                title {
+                romaji
+                english
+                }
+            }
+            }
+        }
+        }
+        }`;
+
+    // Variables for query request
+    // make it so that user can input status_in themself
+        var variables = {
+	"userName": "magkuette",
+	"type": "ANIME",
+	"status_in": [
+		"CURRENT",
+		"COMPLETED",
+		"DROPPED",
+		"PAUSED",
+		"REPEATING"
+	]
+};
+
+        var url = 'https://graphql.anilist.co',
+        options = {
+            method: 'POST', //send data to API
+            headers: {
+                'Content-Type': 'application/json', //data being sent is JSON
+                'Accept': 'application/json', //expect JSON response
+            },
+            body: JSON.stringify({
+                query: query,
+                variables: variables
+            })
+        };
+
+        // Make the HTTP Api request
+        fetch(url, options)
+            .then(handleResponse)
+            .then(handleData)
+            .catch(handleError);
+
+        function handleResponse(response) {
+            return response.json().then(function (json) {
+                return response.ok ? json : Promise.reject(json);
+            });
+        }
+
+        function handleData(data) {
+            console.log(data);
+        }
+
+        function handleError(error) {
+            alert('Error, check console');
+            console.error(error);
+        }
+
     }
 
 // var query = `
@@ -284,6 +386,5 @@ function filterFunction() {
 // testFunction();
 
 // Here we define our query as a multi-line string, we did it
-//can you see this
 // Storing it in a separate .graphql/.gql file is also possible
 
