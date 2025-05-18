@@ -17,7 +17,7 @@ app.use(express.json());
 
 
 app.post('/api/favorites', async (req, res) => {
-  console.log("Received body:", req.body); // 👈 log input
+  console.log("Received body:", req.body); 
 
   const { username, anime_id, anime_title } = req.body;
 
@@ -26,12 +26,12 @@ app.post('/api/favorites', async (req, res) => {
     .insert([{ username, anime_id, anime_title }]);
 
   if (error) {
-    console.error('Insert favorite error:', error); // 👈 log error
+    console.error('Insert favorite error:', error); 
     return res.status(500).json({ error: 'Failed to add favorite', details: error });
   }
 
-  console.log("Insert successful:", data); // 👈 log success
-  res.status(201).json({ message: 'Favorite added', data }); // 👈 send response
+  console.log("Insert successful:", data); 
+  res.status(201).json({ message: 'Favorite added', data }); 
 });
 
 // GET: Fetch favorites for a specific user

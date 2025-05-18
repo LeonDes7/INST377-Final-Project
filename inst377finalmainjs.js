@@ -615,6 +615,6 @@ async function saveRecommendation(animeTitle, animeId) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  showAllRecommendations();  // ⬅️ Required to generate the dynamic form + button
+  showAllRecommendations();  
   compareList();
 });
