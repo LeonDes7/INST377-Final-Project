@@ -1,7 +1,11 @@
-body, input, button {
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
 }
 
+/* Background Image */
 #background-gradient {
     position: absolute;
     top: 0;
@@ -9,68 +13,91 @@ body, input, button {
     height: 100vh;
     width: 100vw;
     z-index: -1;
-    background: linear-gradient(to bottom left, #8ed1fc 10%, #6da0f0 90%);
+    background: url('YOUR_IMAGE_URL_HERE') no-repeat center center/cover;
+    filter: brightness(0.5);
 }
 
+/* Welcome Section */
 #welcome {
-    color: #1a1a1d;
+    color: #fff;
     margin-bottom: 0;
+    font-family: 'Anime Font', sans-serif;
+    font-size: 3em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    margin-top: 100px;
 }
 
+/* Main Container */
 #home-container {
     display: flex;
     justify-content: center;
     margin-top: 150px;
 }
 
+/* Inner container with a cool anime style */
 #home-container2 {
     display: flex;
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: #f0f4f8; 
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 30px;
-    opacity: 0.9; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 500px;
-    height: 250px;
-    padding: 20px; 
+    height: 350px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
 }
 
+/* Username Input */
 #username {
-    height: 25px;
+    height: 30px;
     border-radius: 10px;
-    border-color: #1a1a1d; 
-    font-size: 15px;
+    border: 2px solid #1a73e8;
+    font-size: 16px;
+    padding: 5px;
+    margin-bottom: 15px;
 }
 
+/* Focus effect for input */
 #username:focus {
-    background-color: #1a1a1d;
-    transition: 0.2s ease;
-    color: #f0f4f8; 
+    background-color: #1a73e8;
+    color: #fff;
+    transition: 0.3s ease;
 }
 
+/* Button styling */
 #go-button {
-    background-color: #1a1a1d;
+    background-color: #1a73e8;
     border-radius: 10px;
     margin: 10px;
-    padding: 10px 20px; 
-    color: #f0f4f8; 
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Hover effect for button */
 #go-button:hover {
-    background-color: #6da0f0; 
-    color: #1a1a1d; 
+    background-color: #0c56b1;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* Navigation styling */
 #nav {
     position: fixed;
     display: flex;
     bottom: 0;
     right: 0;
+    height: auto;
+    width: auto;
     justify-content: flex-end;
     align-items: flex-end;
+    background-color: transparent;
     z-index: 10;
 }
 
@@ -78,13 +105,13 @@ body, input, button {
     display: flex;
     flex-direction: column;
     margin: 10px;
-    color: #f0f4f8; 
+    color: #fff;
     text-decoration: none;
     text-align: right;
 }
 
 .nav-tab {
-    color: #f0f4f8; 
+    color: #fff;
     text-decoration: none;
     font-size: large;
 }
@@ -132,12 +159,12 @@ body, input, button {
 }
 
 #signup-link {
-    color: #1a73e8; 
+    color: #ffb6c1; 
     font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
 }
 
 #signup-link:hover {
-    color: #0c56b1;
+    color: #ff69b4; 
 }
