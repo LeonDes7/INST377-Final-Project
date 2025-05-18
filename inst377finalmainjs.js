@@ -80,7 +80,7 @@ function showAllRecommendations() {
 
     const submit_for_all_recommendations = document.createElement("button");
     submit_for_all_recommendations.innerHTML = "Submit";
-    submit_for_all_recommendations.onclick = filterFunction;
+    submit_for_all_recommendations.onclick = showAllRecommendationsFunctionality;
     
     document.getElementById("show-all-recommendations").append(userName1, genreFilters, tagFilters, finished, finished_label,
         releasing, releasing_label, not_yet_released, not_yet_released_label, cancelled, cancelled_label, hiatus, hiatus_label, submit_for_all_recommendations);
@@ -122,7 +122,7 @@ function showAllRecommendations() {
 });
 }
 
-function filterFunction() {
+function showAllRecommendationsFunctionality() {
     const genreFilters = document.getElementById("genre-filters").value.split(',');
     console.log("this is genreFilters",genreFilters)
     const tagFilters = document.getElementById("tag-filters").value.split(',');
@@ -248,18 +248,18 @@ function compareList() {
         completed, completed_label, dropped, dropped_label, paused, paused_label, repeating, repeating_label, submit_for_compare_list);
 }
 
-function compareListFunctionality() {
+async function compareListFunctionality() {
     const userName1 = document.getElementById("first-username").value;
     const userName2 = document.getElementById("second-username").value;
 
-    const statusList = [];
-    console.log("statusList before",statusList);
+    const userStatusList = [];
+    console.log("userStatusList before",userStatusList);
     if (document.getElementById("current").checked == false) {
         console.log("current is unchecked");
     }
     else {
         console.log("current is checked");
-        statusList.push("CURRENT");
+        userStatusList.push("CURRENT");
     }
 
     if (document.getElementById("planning").checked == false) {
@@ -267,7 +267,7 @@ function compareListFunctionality() {
     }
     else {
         console.log("planning is checked");
-        statusList.push("PLANNING");
+        userStatusList.push("PLANNING");
     }
 
     if (document.getElementById("completed").checked == false) {
@@ -275,7 +275,7 @@ function compareListFunctionality() {
     }
     else {
         console.log("completed is checked");
-        statusList.push("COMPLETED");
+        userStatusList.push("COMPLETED");
     }
 
     if (document.getElementById("dropped").checked == false) {
@@ -283,7 +283,7 @@ function compareListFunctionality() {
     }
     else {
         console.log("dropped is checked");
-        statusList.push("DROPPED");
+        userStatusList.push("DROPPED");
     }
 
     if (document.getElementById("paused").checked == false) {
@@ -291,7 +291,7 @@ function compareListFunctionality() {
     }
     else {
         console.log("paused is checked");
-        statusList.push("PAUSED");
+        userStatusList.push("PAUSED");
     }
 
     if (document.getElementById("repeating").checked == false) {
@@ -299,29 +299,34 @@ function compareListFunctionality() {
     }
     else {
         console.log("repeating is checked");
-        statusList.push("REPEATING");
+        userStatusList.push("REPEATING");
     }
-    userList1(userName1);
-    userList2(userName2);
+    await userList1(userName1);
+    userList2(userName2, userStatusList);
+    console.log("this is userStatusList after", userStatusList);
 }
 
-function userList1(userName1) {
+const user1IdList = [];
+const user1StatusList = {};
+async function userList1(userName1) {
     console.log("this is userList1 receiving userName1", userName1);
     var query = `
-    query ($type: MediaType, $userName: String, $status: [MediaListStatus]) {
-    MediaListCollection(type: $type, userName: $userName, status_in: $status) {
-    lists {
-        entries {
-        media {
-            title {
-            romaji
-            english
+    query ($type: MediaType, $userName: String, $status_in: [MediaListStatus]) {
+        MediaListCollection(type: $type, userName: $userName, status_in: $status_in) {
+            lists {
+                entries {
+                    status
+                    media {
+                        id
+                        title {
+                            romaji
+                            english
+                            }
+                    }
+                }
             }
-        }
-        }
-    }
-    }
-    }`;
+            }
+            }`;
 
     // Variables for query request
     var variables = {
@@ -350,7 +355,7 @@ function userList1(userName1) {
     };
 
     // Make the HTTP Api request
-    fetch(url, options)
+    await fetch(url, options)
         .then(handleResponse)
         .then(handleData)
         .catch(handleError);
@@ -361,46 +366,64 @@ function userList1(userName1) {
         });
     }
 
-    function handleData(data) {
-        console.log(data);
+    function handleData(userData1) {
+        console.log(userData1);
+        // get all the IDs in userName1 anime list
+        userData1.data.MediaListCollection.lists.forEach((list) => {
+            list.entries.forEach((entry) => {
+                // if entry.status is included in this list then push user1Id
+                // only added this because the status variables aren't working like i want them to
+                // might have to just remove the status variables if can't figure it out
+                if (["CURRENT", "COMPLETED", "DROPPED", "PAUSED", "REPEATING"].includes(entry.status)) {
+                const user1Id = entry.media.id;
+                console.log("this is userId", user1Id);
+                user1IdList.push(user1Id);
+                    console.log("this is user1IdList for the first time",user1IdList);
+                }
+                user1StatusList[entry.media.id] = entry.status;
+            })
+        })
+        console.log("this is user1IdList", user1IdList);
+        // userData1.data.MediaListCollection.lists.forEach((list) => {
+        //     list.entries.forEach((entry) => {
+        //         user1StatusList.push(entry.status);
+        //     })
+        // })
     }
 
     function handleError(error) {
-        alert('Error, check console');
+        alert('userList1 error, check console');
         console.error(error);
     }
 
 }
 
-function userList2(userName2) {
-    console.log("this is userList2 receiving userName2", userName2);
+userName2CompareList = [];
+function userList2(userName2, userStatusList) {
+    console.log("this is userList2 receiving userName2 and userStatusList", userName2, userStatusList);
     var query = `
-    query ($type: MediaType, $userName: String, $status: [MediaListStatus]) {
-    MediaListCollection(type: $type, userName: $userName, status_in: $status) {
-    lists {
-        entries {
-        media {
-            title {
-            romaji
-            english
+    query ($type: MediaType, $userName: String, $status_in: [MediaListStatus]) {
+        MediaListCollection(type: $type, userName: $userName, status_in: $status_in) {
+            lists {
+                entries {
+                    status
+                    media {
+                        id
+                        title {
+                        romaji
+                        english
+                        }
+                }
+                }
             }
-        }
-        }
-    }
-    }
-    }`;
+            }
+            }`;
 
     // Variables for query request
         var variables = {
     "userName": userName2,
     "type": "ANIME",
-    "status_in": [
-        "CURRENT",
-        "COMPLETED",
-        "DROPPED",
-        "PAUSED",
-        "REPEATING"
-    ]
+    "status_in": userStatusList
     };
 
     var url = 'https://graphql.anilist.co',
@@ -428,35 +451,62 @@ function userList2(userName2) {
         });
     }
 
-    function handleData(data) {
-        console.log(data);
+    function handleData(userData2) {
+        console.log("this is userData2",userData2);
+                userData2.data.MediaListCollection.lists.forEach((list) => {
+            list.entries.forEach((entry) => {
+                // if (user1IdList.includes(entry.media.id)) {
+                //     commonUser1Id.push(entry.media.id)
+                // }
+                const tableRow = document.createElement("tr");
+                const animeName = document.createElement("td");
+                const animeStatus1 = document.createElement("td");
+                const animeStatus2 = document.createElement("td");
+                console.log("THIS IS USER1IDLIST AGAIN", user1IdList);
+                animeName.innerHTML = entry.media.title.english || entry.media.title.romaji;
+                animeStatus2.innerHTML = entry.status;
+                animeStatus1.innerHTML = user1StatusList[entry.media.id];
+                if (user1StatusList[entry.media.id] == undefined) {
+                    animeStatus1.innerHTML = "haven't watched";
+                }
+
+                tableRow.append(animeName);
+                tableRow.append(animeStatus2);
+                tableRow.append(animeStatus1);
+
+                document.getElementById("compare-table").append(tableRow);
+                console.log("this is userName2CompareList after", userName2CompareList);
+
+            })
+        })
     }
 
     function handleError(error) {
-        alert('Error, check console');
+        alert('userList2 error, check console');
         console.error(error);
     }
 
 }
-
+const recommendationsList = [];
 function anime(genreFilters, tagFilters, statusList) {
     console.log("this is anime receiving genreFilters, tagFilters, statusList", genreFilters, tagFilters, statusList);
-    var query = `
-    query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [String], $status: [MediaStatus]) {
-    Page(perPage: $perPage, page: $page) {
-        media(type: $type, genre_in: $genre, tag_in: $tag, status_in: $status) {
-            title {
-                romaji
-                english
-            }
-            genres
-            tags {
-                name
+        var query = `
+        query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [String], $status: [MediaStatus]) {
+        Page(perPage: $perPage, page: $page) {
+            media(type: $type, genre_in: $genre, tag_in: $tag, status_in: $status) {
+                id
+                title {
+                    romaji
+                    english
+                }
+                genres
+                tags {
+                    name
+                }
             }
         }
-    }
-    }
-    `;
+        }
+        `;
 
     // Define our query variables and values that will be used in the query request
     var variables =
@@ -495,12 +545,22 @@ function anime(genreFilters, tagFilters, statusList) {
         });
         }
 
-    function handleData(data) {
-        console.log(data);
+    function handleData(animeData) {
+        animeData.data.Page.media.forEach((media1) => {
+            console.log("this is media1", media1);
+            if (!user1IdList.includes(media1.id)) {
+                recommendationsList.push(media1);
+                const recommendations = document.createElement('p');
+                recommendations.innerHTML = media1.title.english || media1.title.romaji;
+                document.getElementById("all-recommendations-div").append(recommendations);
+            }
+        });
+        console.log(animeData);
+        console.log("this is recommendations", recommendationsList);
         }
 
     function handleError(error) {
-        alert('Error, check console');
+        alert('anime error, check console');
         console.error(error);
         }
 
