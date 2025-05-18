@@ -393,8 +393,11 @@ async function userList1(userName1) {
     }
 
     function handleError(error) {
-        alert('userList1 error, check console');
-        console.error(error);
+            Swal.fire({
+        icon: 'error',
+        title: 'Failed to Load User List',
+        text: 'Something went wrong. Check the console for details.',
+    });
     }
 
 }
@@ -483,9 +486,13 @@ function userList2(userName2, userStatusList) {
     }
 
     function handleError(error) {
-        alert('userList2 error, check console');
-        console.error(error);
-    }
+    Swal.fire({
+        icon: 'error',
+        title: 'Failed to Load Recommendations',
+        text: 'There was an issue fetching anime suggestions.',
+    });
+    console.error(error);
+}
 
 }
 const recommendationsList = [];
@@ -574,9 +581,13 @@ function anime(genreFilters, tagFilters, statusList) {
         }
 
     function handleError(error) {
-        alert('anime error, check console');
-        console.error(error);
-        }
+    Swal.fire({
+        icon: 'error',
+        title: 'Failed to Load Recommendations',
+        text: 'There was an issue fetching anime suggestions.',
+    });
+    console.error(error);
+}
 
 }
 
