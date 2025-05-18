@@ -1,6 +1,5 @@
 body, input, button {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #background-gradient {
@@ -10,13 +9,14 @@ body, input, button {
     height: 100vh;
     width: 100vw;
     z-index: -1;
-    background: linear-gradient(to bottom left, rgb(11, 22, 34) 10%, rgb(52, 16, 92) 90%);
+    background: linear-gradient(to bottom left, #8ed1fc 10%, #6da0f0 90%);
 }
 
 #welcome {
-    color: rgb(11,22,34);
+    color: #1a1a1d;
     margin-bottom: 0;
 }
+
 #home-container {
     display: flex;
     justify-content: center;
@@ -28,49 +28,49 @@ body, input, button {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: rgb(225, 228, 233);
+    background-color: #f0f4f8; /* Light blue background */
     border-radius: 30px;
-    opacity: 80%;
+    opacity: 0.9; /* Reduced opacity for a subtle effect */
     width: 500px;
     height: 250px;
-    padding: 10px;
+    padding: 20px; /* Increased padding for better spacing */
 }
 
 #username {
     height: 25px;
     border-radius: 10px;
-    border-color: rgb(11, 22, 34);
+    border-color: #1a1a1d; /* Darker border color */
     font-size: 15px;
 }
 
 #username:focus {
-    background-color: rgb(11, 22, 34);
+    background-color: #1a1a1d;
     transition: 0.2s ease;
-    color: rgb(225, 228, 233);
+    color: #f0f4f8; /* Light text color on focus */
 }
 
 #go-button {
-    background-color: rgb(225, 228, 233);
+    background-color: #1a1a1d;
     border-radius: 10px;
     margin: 10px;
-    padding: 7px;
+    padding: 10px 20px; /* Increased padding for button size */
+    color: #f0f4f8; /* Light text color */
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #go-button:hover {
-    background-color: rgb(11, 22, 34);
-    transition: 0.2s ease;
-    color: rgb(225, 228, 233);
+    background-color: #6da0f0; /* Light blue hover color */
+    color: #1a1a1d; /* Dark text color on hover */
 }
+
 #nav {
     position: fixed;
     display: flex;
     bottom: 0;
     right: 0;
-    height: auto;
-    width: auto;
     justify-content: flex-end;
     align-items: flex-end;
-    background-color: transparent;
     z-index: 10;
 }
 
@@ -78,13 +78,13 @@ body, input, button {
     display: flex;
     flex-direction: column;
     margin: 10px;
-    color: rgb(225, 228, 233);
+    color: #f0f4f8; /* Light text color */
     text-decoration: none;
     text-align: right;
 }
 
 .nav-tab {
-    color: rgb(225, 228, 233);
+    color: #f0f4f8; /* Light text color */
     text-decoration: none;
     font-size: large;
 }
@@ -92,6 +92,7 @@ body, input, button {
 .nav-tab:hover {
     font-weight: bold;
 }
+
 .about-container {
     display: flex;
     justify-content: center;
@@ -103,9 +104,9 @@ body, input, button {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: rgb(225, 228, 233);
+    background-color: #f0f4f8; /* Light blue background */
     border-radius: 30px;
-    opacity: 80%;
+    opacity: 0.9; /* Reduced opacity for a subtle effect */
     width: 500px;
     height: 250px;
     padding: 40px;
@@ -122,51 +123,10 @@ body, input, button {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: rgb(225, 228, 233);
+    background-color: #f0f4f8; /* Light blue background */
     border-radius: 30px;
-    opacity: 80%;
+    opacity: 0.9; /* Reduced opacity for a subtle effect */
     width: 900px;
     height: 550px;
     padding: 40px;
 }
-
-/* #home-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-#home-container2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#nav {
-    position: fixed;
-    display: flex;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    justify-content: flex-end;
-    align-items: flex-end;
-}
-
-#nav2 {
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-}
-
-.about-help-container {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-    width: 1000px;
-    margin: auto;
-}
-
- */
