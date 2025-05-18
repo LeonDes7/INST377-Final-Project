@@ -167,7 +167,7 @@ button:hover {
   justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
-  padding: 6rem 2rem 2rem 2rem; /* ⬅️ Top padding moved to push content below nav */
+  padding: 6rem 2rem 2rem 2rem; 
   box-sizing: border-box;
 }
 
@@ -180,7 +180,7 @@ button:hover {
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  min-height: 400px;     /* ⬅️ Make both the same height visually */
+  min-height: 400px;     
   display: flex;
   flex-direction: column;
 }
