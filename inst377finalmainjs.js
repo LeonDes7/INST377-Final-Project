@@ -28,7 +28,7 @@ document.getElementById("all-recommendations").addEventListener("click", () => {
         showAllRecommendations();
     })
 
-function showAllRecommendations() {
+async function showAllRecommendations() {
     const userName1 = document.createElement("input");
     userName1.type = "text";
     userName1.id = "first-username";
