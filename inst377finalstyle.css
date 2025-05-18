@@ -28,40 +28,40 @@ body, input, button {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: #f0f4f8; /* Light blue background */
+    background-color: #f0f4f8; 
     border-radius: 30px;
-    opacity: 0.9; /* Reduced opacity for a subtle effect */
+    opacity: 0.9; 
     width: 500px;
     height: 250px;
-    padding: 20px; /* Increased padding for better spacing */
+    padding: 20px; 
 }
 
 #username {
     height: 25px;
     border-radius: 10px;
-    border-color: #1a1a1d; /* Darker border color */
+    border-color: #1a1a1d; 
     font-size: 15px;
 }
 
 #username:focus {
     background-color: #1a1a1d;
     transition: 0.2s ease;
-    color: #f0f4f8; /* Light text color on focus */
+    color: #f0f4f8; 
 }
 
 #go-button {
     background-color: #1a1a1d;
     border-radius: 10px;
     margin: 10px;
-    padding: 10px 20px; /* Increased padding for button size */
-    color: #f0f4f8; /* Light text color */
+    padding: 10px 20px; 
+    color: #f0f4f8; 
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #go-button:hover {
-    background-color: #6da0f0; /* Light blue hover color */
-    color: #1a1a1d; /* Dark text color on hover */
+    background-color: #6da0f0; 
+    color: #1a1a1d; 
 }
 
 #nav {
@@ -78,13 +78,13 @@ body, input, button {
     display: flex;
     flex-direction: column;
     margin: 10px;
-    color: #f0f4f8; /* Light text color */
+    color: #f0f4f8; 
     text-decoration: none;
     text-align: right;
 }
 
 .nav-tab {
-    color: #f0f4f8; /* Light text color */
+    color: #f0f4f8; 
     text-decoration: none;
     font-size: large;
 }
@@ -104,9 +104,9 @@ body, input, button {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: #f0f4f8; /* Light blue background */
+    background-color: #f0f4f8; 
     border-radius: 30px;
-    opacity: 0.9; /* Reduced opacity for a subtle effect */
+    opacity: 0.9; 
     width: 500px;
     height: 250px;
     padding: 40px;
@@ -123,10 +123,21 @@ body, input, button {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    background-color: #f0f4f8; /* Light blue background */
+    background-color: #f0f4f8; 
     border-radius: 30px;
-    opacity: 0.9; /* Reduced opacity for a subtle effect */
+    opacity: 0.9; 
     width: 900px;
     height: 550px;
     padding: 40px;
+}
+
+#signup-link {
+    color: #1a73e8; 
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#signup-link:hover {
+    color: #0c56b1;
 }
