@@ -21,14 +21,17 @@
 
 // these aren't all the tags but i'm probably gonna leave some out
 
+const user1IdList = [];
+const user1StatusList = {};
 
-// If you click on all-recommendations button, showAllRecommendations function will be called
-document.getElementById("all-recommendations").addEventListener("click", () => {
-    console.log("clicked testing")
-        showAllRecommendations();
-    })
+window.addEventListener("DOMContentLoaded", () => {
+    showAllRecommendations();
+    compareList();
+});
 
 async function showAllRecommendations() {
+        console.log("Running showAllRecommendations()");
+    document.getElementById("show-all-recommendations").replaceChildren();
     const userName1 = document.createElement("input");
     userName1.type = "text";
     userName1.id = "first-username";
@@ -123,6 +126,7 @@ async function showAllRecommendations() {
 }
 
 function showAllRecommendationsFunctionality() {
+    
     const genreFilters = document.getElementById("genre-filters").value.split(',');
     console.log("this is genreFilters",genreFilters)
     const tagFilters = document.getElementById("tag-filters").value.split(',');
@@ -183,13 +187,9 @@ function showAllRecommendationsFunctionality() {
 
     }
 
-// If you click on compare-list button, compareList function will be called
-document.getElementById("compare-list").addEventListener("click", () => {
-    console.log("clicked testing")
-        compareList();
-    })
 
 function compareList() {
+    document.getElementById("show-compare-list").replaceChildren();
     const userName1 = document.createElement("input");
     userName1.type = "text";
     userName1.id = "first-username";
@@ -306,10 +306,11 @@ async function compareListFunctionality() {
     console.log("this is userStatusList after", userStatusList);
 }
 
-const user1IdList = [];
-const user1StatusList = {};
+
 async function userList1(userName1) {
     console.log("this is userList1 receiving userName1", userName1);
+        user1IdList.length = 0;
+    Object.keys(user1StatusList).forEach(key => delete user1StatusList[key]);
     var query = `
     query ($type: MediaType, $userName: String, $status_in: [MediaListStatus]) {
         MediaListCollection(type: $type, userName: $userName, status_in: $status_in) {
@@ -552,7 +553,20 @@ function anime(genreFilters, tagFilters, statusList) {
                 recommendationsList.push(media1);
                 const recommendations = document.createElement('p');
                 recommendations.innerHTML = media1.title.english || media1.title.romaji;
-                document.getElementById("all-recommendations-div").append(recommendations);
+
+                const saveBtn = document.createElement("button");
+                saveBtn.innerText = "Save to Favorites";
+                saveBtn.onclick = () => saveRecommendation(
+                    media1.title.english || media1.title.romaji,
+                    media1.id
+);
+
+                const container = document.createElement('div'); 
+                container.append(recommendations);
+                container.append(saveBtn);
+
+                document.getElementById("all-recommendations-div").append(container);
+                
             }
         });
         console.log(animeData);
@@ -566,3 +580,41 @@ function anime(genreFilters, tagFilters, statusList) {
 
 }
 
+async function getSavedRecommendations() {
+    const username = document.getElementById("first-username").value;
+
+    const response = await fetch(`http://127.0.0.1:3001/api/favorites/${username}`);
+    const data = await response.json();
+
+    const container = document.getElementById("saved-recommendations");
+    container.innerHTML = "";
+    data.forEach((item) => {
+        const entry = document.createElement("p");
+        entry.innerText = `${item.anime_title} (ID: ${item.anime_id})`;
+        container.append(entry);
+    });
+}
+
+async function saveRecommendation(animeTitle, animeId) {
+    const username = document.getElementById("first-username").value;
+
+    const response = await fetch("http://127.0.0.1:3001/api/favorites", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            username, 
+            anime_id: animeId, 
+            anime_title: animeTitle 
+        }),
+    });
+
+    const result = await response.json();
+    console.log("Saved to Supabase:", result);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  showAllRecommendations();  // ⬅️ Required to generate the dynamic form + button
+  compareList();
+});

@@ -15,37 +15,59 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// GET: Fetch all recommendations for a user
-app.get('/api/recommendations/:username', async (req, res) => {
-    const { username } = req.params;
 
-    const { data, error } = await supabase
-        .from('recommendations')
-        .select('*')
-        .eq('username', username);
+app.post('/api/favorites', async (req, res) => {
+  console.log("Received body:", req.body); // 👈 log input
 
-    if (error) {
-        console.error('Fetch error:', error);
-        return res.status(500).json({ error: 'Failed to retrieve recommendations' });
-    }
-
-    res.json(data);
-});
-
-app.post('/api/recommendations', async (req, res) => {
-  const { username, anime_title, score } = req.body;
-  console.log("Received from client:", { username, anime_title, score });
+  const { username, anime_id, anime_title } = req.body;
 
   const { data, error } = await supabase
-    .from('recommendations')
-    .insert([{ username, anime_title, score }]);
-
-  console.log("Insert result:", data);
-  console.log("Insert error:", error);
+    .from('favorites')
+    .insert([{ username, anime_id, anime_title }]);
 
   if (error) {
-    return res.status(500).json({ error: 'Failed to save recommendation', details: error });
+    console.error('Insert favorite error:', error); // 👈 log error
+    return res.status(500).json({ error: 'Failed to add favorite', details: error });
   }
 
-  res.status(201).json({ success: true, data });
+  console.log("Insert successful:", data); // 👈 log success
+  res.status(201).json({ message: 'Favorite added', data }); // 👈 send response
+});
+
+// GET: Fetch favorites for a specific user
+app.get('/api/favorites/:username', async (req, res) => {
+  const { username } = req.params;
+
+  const { data, error } = await supabase
+    .from('favorites')
+    .select('*')
+    .eq('username', username);
+
+  if (error) {
+    console.error('Fetch favorites error:', error);
+    return res.status(500).json({ error: 'Failed to fetch favorites' });
+  }
+
+  res.status(200).json(data);
+});
+
+// DELETE: Remove a favorite
+app.delete('/api/favorites', async (req, res) => {
+  const { username, anime_id } = req.body;
+
+  const { error } = await supabase
+    .from('favorites')
+    .delete()
+    .match({ username, anime_id });
+
+  if (error) {
+    console.error('Delete favorite error:', error);
+    return res.status(500).json({ error: 'Failed to remove favorite' });
+  }
+
+  res.status(200).json({ message: 'Favorite removed' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });

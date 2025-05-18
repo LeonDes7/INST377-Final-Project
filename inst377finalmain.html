@@ -1,61 +1,51 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="inst377finalstyle.css">
-        <script defer src="inst377finalmainjs.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div id="background-gradient"></div>
-        <div id="home-container">
-            <div id="home-container2">
-                <button id="all-recommendations">Fetch All Recommendations</button>
-                <div id="show-all-recommendations"></div>
-                <button id="compare-list">Compare with Another List</button>
-                <div id="show-compare-list"></div>
-                <div id="all-recommendations-div"></div>
-                <table id="compare-table">
-                    <tr>
-                        <th></th> <!--supposed to be empty-->
-                        <th id="username1-table"></th>
-                        <th id="username2-table"></th>
-                    </tr>
-                </table>
-                 <!-- <form>
-                    <input type="text" id="first-username" placeholder="First username">
-                    <input type="text" id="second-username" placeholder="Second username">
-                    <input id="genre-filters" placeholder="Genre">
-                    <input id="tag-filters" placeholder="Tag">
-                    <label for="finished">Finished</label>
-                    <input id="finished" type="checkbox" value="finished">
-                    <label for="releasing">Releasing</label>
-                    <input id="releasing" type="checkbox" value="releasing">
-                    <label for="not_yet_released">Not yet released</label>
-                    <input id="not_yet_released" type="checkbox" value="not_yet_released">
-                    <label for="cancelled">Cancelled</label>
-                    <input id="cancelled" type="checkbox" value="cancelled">
-                    <label for="hiatus">Hiatus</label>
-                    <input id="hiatus" type="checkbox" value="hiatus">
-                </form> -->
+<head>
+  <link rel="stylesheet" href="inst377finalstyle.css">
+  <script defer src="inst377finalmainjs.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+</head>
 
-                <!-- <form id="recommendation-form" autocomplete="off">
-                    <input type="text" id="username" name="username" placeholder="Username" required />
-                    <input type="text" id="anime-title" name="anime-title" placeholder="Anime Title" required />
-                    <input type="number" id="score" name="score" placeholder="Score (e.g. 8.5)" step="0.1" required />
-                    <button type="submit">Save Recommendation</button>
-                </form>
+<body>
+  <div id="background-gradient"></div>
 
-                <p id="status"></p> -->
-            </div>
-        </div>
-        <aside id="nav">
-            <div id="nav2">
-                <a href="inst377final.html">Log out</a>
-                <a href="inst377finalabout.html">About</a>
-                <a href="inst377finalhelp.html">Help</a>
-            </div>
-        </aside>
-    </body>
-    <!-- <script type="module" src="login.js"></script> -->
+  <!-- ✅ Navigation Header -->
+  <header>
+    <h2 class="logo">AniList Recommender</h2>
+    <nav class="navigation">
+      <a href="inst377finalmain.html">Home</a>
+      <a href="inst377finalabout.html">About</a>
+      <a href="inst377finalhelp.html">Help</a>
+    </nav>
+  </header>
+
+  <!-- ✅ Main Layout: Side-by-side panels -->
+  <div id="main-layout">
+    <!-- LEFT PANEL: Recommendations -->
+    <div id="left-panel">
+      <h2>Recommendations</h2>
+      <div id="show-all-recommendations"></div>
+      <div id="all-recommendations-div"></div>
+
+      <!-- View saved favorites -->
+      <button onclick="getSavedRecommendations()">View My Saved Anime</button>
+      <div id="saved-recommendations"></div>
+    </div>
+
+    <!-- RIGHT PANEL: Compare Lists -->
+    <div id="right-panel">
+      <h2>Compare Lists</h2>
+      <div id="show-compare-list"></div>
+      <table id="compare-table">
+        <tr>
+          <th></th> <!-- Empty cell -->
+          <th id="username1-table"></th>
+          <th id="username2-table"></th>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
 </html>
