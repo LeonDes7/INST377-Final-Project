@@ -524,8 +524,12 @@ function anime(genreFilters, tagFilters, statusList) {
         "page": 1,
         "genre": genreFilters,
         "tag": tagFilters,
-        "status": statusList
+        // "status": statusList
     };
+
+    if (statusList > 0) {
+        variables.status = statusList;
+    }
 
     // Define the config we'll need for our Api request
     var url = 'https://graphql.anilist.co',
