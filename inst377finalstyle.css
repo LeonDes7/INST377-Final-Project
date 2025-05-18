@@ -1,41 +1,95 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1a73e8;
+html, body {
     margin: 0;
     padding: 0;
+    height: 100%; 
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* Background Image */
 #background-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    z-index: -1;
-    background: url('YOUR_IMAGE_URL_HERE') no-repeat center center/cover;
-    filter: brightness(0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  z-index: -1;
+  background: url('https://images2.alphacoders.com/124/1240705.jpg') no-repeat center center / cover;
+  filter: brightness(0.5);
 }
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px; 
+  background: #1a73e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+  box-sizing: border-box;
+}
+
+.logo {
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 25px; 
+}
+
+.navigation a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.navigation a:hover {
+  color: #ffb6c1;
+  text-decoration: underline;
+}
+
+.btnLogin-popup {
+    padding: 8px 16px;
+    background-color: white;
+    color: #1a73e8;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btnLogin-popup:hover {
+    background-color: #e6e6e6;
+}
+
 
 /* Welcome Section */
 #welcome {
     color: #fff;
     margin-bottom: 0;
     font-family: 'Anime Font', sans-serif;
-    font-size: 3em;
+    font-size: 2em;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
-/* Main Container */
 #home-container {
     display: flex;
     justify-content: center;
     margin-top: 150px;
 }
 
-/* Inner container with a cool anime style */
 #home-container2 {
     display: flex;
     flex-direction: column;
@@ -50,7 +104,6 @@ body {
     backdrop-filter: blur(10px);
 }
 
-/* Username Input */
 #username {
     height: 30px;
     border-radius: 10px;
@@ -60,14 +113,12 @@ body {
     margin-bottom: 15px;
 }
 
-/* Focus effect for input */
 #username:focus {
     background-color: #1a73e8;
     color: #fff;
     transition: 0.3s ease;
 }
 
-/* Button styling */
 #go-button {
     background-color: #1a73e8;
     border-radius: 10px;
@@ -80,91 +131,19 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Hover effect for button */
 #go-button:hover {
     background-color: #0c56b1;
     transform: translateY(-3px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Navigation styling */
-#nav {
-    position: fixed;
-    display: flex;
-    bottom: 0;
-    right: 0;
-    height: auto;
-    width: auto;
-    justify-content: flex-end;
-    align-items: flex-end;
-    background-color: transparent;
-    z-index: 10;
-}
-
-#nav2 {
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-    color: #fff;
-    text-decoration: none;
-    text-align: right;
-}
-
-.nav-tab {
-    color: #fff;
-    text-decoration: none;
-    font-size: large;
-}
-
-.nav-tab:hover {
-    font-weight: bold;
-}
-
-.about-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 150px;
-}
-
-.about-container2 {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    background-color: #f0f4f8; 
-    border-radius: 30px;
-    opacity: 0.9; 
-    width: 500px;
-    height: 250px;
-    padding: 40px;
-}
-
-.help-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.help-container2 {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    background-color: #f0f4f8; 
-    border-radius: 30px;
-    opacity: 0.9; 
-    width: 900px;
-    height: 550px;
-    padding: 40px;
-}
-
 #signup-link {
-    color: #ffb6c1; 
+    color: #ffb6c1;
     font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
 }
 
 #signup-link:hover {
-    color: #ff69b4; 
+    color: #ff69b4;
 }

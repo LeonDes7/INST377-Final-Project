@@ -1,29 +1,42 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="inst377finalstyle.css">
-        <style>
-            body {
-                background: linear-gradient(to bottom left, rgb(11, 22, 34) 10%, rgb(52, 16, 92) 90%);
+<head>
+    <link rel="stylesheet" href="inst377finalstyle.css">
+    <script defer src="inst377finalmainjs.js"></script>
+</head>
+<body>
+    <div id="background-gradient"></div>
 
-            }
-        </style>
-    </head>
-    <body>
-        <div class="help-container">
-            <div class="help-container2">
-                <h1>Help</h1>
-                <p><b>What is AniList?</b></br></br>AniList is a website that users can use to keep track of anime, categorizing them into categories
-                    such as completed, watching, rewatching, dropped, and plan to watch. The website also allows users to
-                    favorite anime, add their thoughts to them, view other people's anime lists, and post on the AniList forum.</p>
-                <p><b>Why am I unable to receive recommendations?</b></br></br>Your AniList profile might be on private. Please set it to public.</p>
-            </div>
+    <header>
+        <h2 class="logo">AniList Recommender</h2>
+        <nav class="navigation">
+            <a href="inst377final.html">Login</a>
+            <a href="inst377finalabout.html">About</a>
+            <a href="inst377finalhelp.html" style="text-decoration: underline;">Help</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div id="home-container">
+        <div id="home-container2">
+            <h1>Help</h1>
+
+            <section class="faq-item">
+                <h3>What is AniList?</h3>
+                <p>
+                    AniList is a website that users can use to keep track of anime, categorizing them into sections such as 
+                    <i>completed</i>, <i>watching</i>, <i>rewatching</i>, <i>dropped</i>, and <i>plan to watch</i>. The website also allows 
+                    users to favorite anime, add their thoughts to them, view other people's anime lists, and post on the AniList forum.
+                </p>
+            </section>
+
+            <section class="faq-item">
+                <h3>Why am I unable to receive recommendations?</h3>
+                <p>
+                    Your AniList profile might be set to private. Please make sure your profile is set to public to enable the recommendation feature.
+                </p>
+            </section>
         </div>
-    <aside id="nav">
-        <div id="nav2">
-            <a class="nav-tab" href="inst377final.html">LOGIN</a>
-            <a class="nav-tab" href="inst377finalabout.html">ABOUT</a>
-            <a class="nav-tab" style="font-size: x-large; text-decoration: underline;" href="inst377finalhelp.html">HELP</a>
-            <a class="nav-tab" href="inst377finalmain.html">MAIN</a>
-        </div>
-    </aside>
+    </div>
+</body>
 </html>
