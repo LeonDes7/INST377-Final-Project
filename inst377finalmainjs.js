@@ -187,6 +187,10 @@ async function showAllRecommendations() {
 }
 
 function showAllRecommendationsFunctionality() {
+  document.getElementById("all-recommendations-div").replaceChildren();
+  recommendationsList.length = 0;
+  statusList.length = 0;
+
   const genreFilters = document
     .getElementById("genre-filters")
     .value.split(",")
@@ -207,11 +211,20 @@ function showAllRecommendationsFunctionality() {
 
   const userName1 = document.getElementById("first-username").value;
 
+  if (!userName1) {
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Username",
+      text: "Please enter your AniList username.",
+    });
+    return;
+  }
+
   if (!genreFilters.length && !tagFilters.length && !statusList.length) {
     Swal.fire({
       icon: "warning",
       title: "Missing Filters",
-      text: "Only user name has been entered, please enter all categories.",
+      text: "Please select at least one genre, tag, and status.",
     });
     return;
   }
@@ -228,27 +241,10 @@ function showAllRecommendationsFunctionality() {
     return;
   }
 
+  // Valid input — now fetch recommendations
   console.log("THIS IS USERNAME1", userName1);
   userList1(userName1);
   anime(genreFilters, tagFilters, statusList);
-
-  if (!genreFilters.length && !tagFilters.length && !statusList.length) {
-    Swal.fire({
-      icon: "warning",
-      title: "No Filters Selected",
-      text: "You’ve entered your username, but you must also select at least one genre, tag, or status to get recommendations.",
-    });
-    return;
-  }
-
-  if (!genreFilters.length && !tagFilters.length && statusList.length > 0) {
-    Swal.fire({
-      icon: "warning",
-      title: "Missing Genre and Tag",
-      text: "You selected status filters, but you must also select at least one genre and one tag.",
-    });
-    return;
-  }
 }
 
 function compareList() {
