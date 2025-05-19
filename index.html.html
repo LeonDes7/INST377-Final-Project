@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="inst377finalstyle.css">
+  <script defer src="inst377finalmainjs.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+  <div id="background-gradient"></div>
+
+  <header>
+    <h2 class="logo">AniList Recommender</h2>
+    <nav class="navigation">
+      <a href="inst377finalmain.html">Home</a>
+      <a href="inst377finalabout.html">About</a>
+      <a href="inst377finalhelp.html">Help</a>
+    </nav>
+  </header>
+
+  <div id="main-layout">
+    <div id="left-panel">
+      <h2>Recommendations</h2>
+      <div id="show-all-recommendations"></div>
+      <div id="all-recommendations-div"></div>
+
+      <button onclick="getSavedRecommendations()">View My Saved Anime</button>
+      <div id="saved-recommendations"></div>
+    </div>
+
+    <!-- RIGHT PANEL: Compare Lists -->
+    <div id="right-panel">
+      <h2>Compare Lists</h2>
+      <div id="show-compare-list"></div>
+<table id="compare-table" style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th>Anime</th>
+      <th>User 2 Status</th>
+      <th>User 1 Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- JS will insert compare results here -->
+  </tbody>
+</table>
+    </div>
+  </div>
+</body>
+</html>
