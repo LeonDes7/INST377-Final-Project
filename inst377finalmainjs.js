@@ -33,9 +33,8 @@ window.addEventListener("DOMContentLoaded", () => {
 async function showAllRecommendations() {
   console.log("Running showAllRecommendations()");
   const container = document.getElementById("show-all-recommendations");
-  container.replaceChildren(); // Clear old form
+  container.replaceChildren();
 
-  // Helper to create left-aligned rows
   function createLeftAlignedRow(...elements) {
     const row = document.createElement("div");
     row.style.display = "flex";
@@ -47,7 +46,6 @@ async function showAllRecommendations() {
     return row;
   }
 
-  // Username Input
   const userName1 = document.createElement("input");
   userName1.type = "text";
   userName1.id = "first-username";
@@ -55,7 +53,6 @@ async function showAllRecommendations() {
 
   const userRow = createLeftAlignedRow(userName1);
 
-  // Genre & Tag Filters
   const genreFilters = document.createElement("input");
   genreFilters.type = "text";
   genreFilters.placeholder = "Genres";
@@ -68,7 +65,6 @@ async function showAllRecommendations() {
 
   const filterRow = createLeftAlignedRow(genreFilters, tagFilters);
 
-  // Status Checkboxes
   const statuses = [
     { id: "finished", label: "Finished" },
     { id: "releasing", label: "Releasing" },
@@ -93,16 +89,13 @@ async function showAllRecommendations() {
 
   const statusRow = createLeftAlignedRow(...statusElements);
 
-  // Submit Button
   const submitBtn = document.createElement("button");
   submitBtn.innerText = "Submit";
   submitBtn.onclick = showAllRecommendationsFunctionality;
   const buttonRow = createLeftAlignedRow(submitBtn);
 
-  // Append all to container
   container.append(userRow, filterRow, statusRow, buttonRow);
 
-  // Tagify setup
   const genreWhitelist = [
     "action",
     "adventure",
@@ -557,7 +550,6 @@ function showAllRecommendationsFunctionality() {
     return;
   }
 
-  // Valid input — now fetch recommendations
   console.log("THIS IS USERNAME1", userName1);
   userList1(userName1);
   anime(genreFilters, tagFilters, statusList);
@@ -565,13 +557,12 @@ function showAllRecommendationsFunctionality() {
 
 function compareList() {
   const container = document.getElementById("show-compare-list");
-  container.replaceChildren(); // Clear previous content
+  container.replaceChildren();
 
-  // Helper to create left-aligned rows
   function createLeftAlignedRow(...elements) {
     const row = document.createElement("div");
     row.style.display = "flex";
-    row.style.justifyContent = "flex-start"; // Align left
+    row.style.justifyContent = "flex-start";
     row.style.alignItems = "center";
     row.style.gap = "10px";
     row.style.margin = "10px 0";
@@ -579,7 +570,6 @@ function compareList() {
     return row;
   }
 
-  // Username Inputs
   const userName1 = document.createElement("input");
   userName1.type = "text";
   userName1.id = "first-username";
@@ -592,7 +582,6 @@ function compareList() {
 
   const userRow = createLeftAlignedRow(userName1, userName2);
 
-  // Status Checkboxes
   const statuses = [
     { id: "current", label: "Current" },
     { id: "planning", label: "Planning" },
@@ -618,13 +607,11 @@ function compareList() {
 
   const checkboxRow = createLeftAlignedRow(...checkboxElements);
 
-  // Submit Button
   const submitBtn = document.createElement("button");
   submitBtn.innerText = "Submit";
   submitBtn.onclick = compareListFunctionality;
   const buttonRow = createLeftAlignedRow(submitBtn);
 
-  // Append all to container
   container.append(userRow, checkboxRow, buttonRow);
 }
 
@@ -676,7 +663,6 @@ async function userList1(userName1) {
             }
             }`;
 
-  // Variables for query request
   var variables = {
     userName: userName1,
     type: "ANIME",
@@ -687,10 +673,10 @@ async function userList1(userName1) {
 
   var url = "https://graphql.anilist.co",
     options = {
-      method: "POST", //send data to API
+      method: "POST",
       headers: {
-        "Content-Type": "application/json", //data being sent is JSON
-        Accept: "application/json", //expect JSON response
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
         query: query,
@@ -698,11 +684,10 @@ async function userList1(userName1) {
       }),
     };
 
-  // Make the HTTP Api request
   await fetch(url, options)
     .then(handleResponse)
     .then(handleData)
-    .catch(handleError); // <-- only run on failure
+    .catch(handleError);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -710,12 +695,10 @@ async function userList1(userName1) {
     });
   }
 
-  function handleData(userData1) {
-    // your existing logic...
-  }
+  function handleData(userData1) {}
 
   function handleError(error) {
-    console.error(error); // helpful for debugging
+    console.error(error);
     Swal.fire({
       icon: "error",
       title: "Compare Failed",
@@ -757,7 +740,6 @@ function userList2(userName2, userStatusList) {
             }
             }`;
 
-  // Variables for query request
   var variables = {
     userName: userName2,
     type: "ANIME",
@@ -766,10 +748,10 @@ function userList2(userName2, userStatusList) {
 
   var url = "https://graphql.anilist.co",
     options = {
-      method: "POST", //send data to API
+      method: "POST",
       headers: {
-        "Content-Type": "application/json", //data being sent is JSON
-        Accept: "application/json", //expect JSON response
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
         query: query,
@@ -777,7 +759,6 @@ function userList2(userName2, userStatusList) {
       }),
     };
 
-  // Make the HTTP Api request
   fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
 
   function handleResponse(response) {
@@ -790,9 +771,8 @@ function userList2(userName2, userStatusList) {
     console.log("this is userData2", userData2);
 
     const compareTable = document.getElementById("compare-table");
-    compareTable.replaceChildren(); // Clear the entire table
+    compareTable.replaceChildren();
 
-    // Create table head
     const thead = document.createElement("thead");
     const headRow = document.createElement("tr");
 
@@ -814,7 +794,6 @@ function userList2(userName2, userStatusList) {
     thead.append(headRow);
     compareTable.append(thead);
 
-    // Create table body
     const tbody = document.createElement("tbody");
 
     userData2.data.MediaListCollection.lists.forEach((list) => {
@@ -879,7 +858,6 @@ query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [Str
 `;
   console.log("statusList being passed:", statusList);
 
-  // Define our query variables and values that will be used in the query request
   var variables = {
     type: "ANIME",
     perPage: 50,
@@ -895,7 +873,6 @@ query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [Str
     variables.status = statusList;
   }
 
-  // Define the config we'll need for our Api request
   var url = "https://graphql.anilist.co",
     options = {
       method: "POST",
@@ -909,7 +886,6 @@ query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [Str
       }),
     };
 
-  // Make the HTTP Api request
   fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
 
   function handleResponse(response) {
