@@ -18,300 +18,335 @@
 // tags filters - done
 // status checkboxes - done
 
-
 // these aren't all the tags but i'm probably gonna leave some out
 
 const user1IdList = [];
 const user1StatusList = {};
 
+const statusList = [];
+
 window.addEventListener("DOMContentLoaded", () => {
-    showAllRecommendations();
-    compareList();
+  showAllRecommendations();
+  compareList();
 });
 
 async function showAllRecommendations() {
-        console.log("Running showAllRecommendations()");
-    document.getElementById("show-all-recommendations").replaceChildren();
-    const userName1 = document.createElement("input");
-    userName1.type = "text";
-    userName1.id = "first-username";
+  console.log("Running showAllRecommendations()");
+  const container = document.getElementById("show-all-recommendations");
+  container.replaceChildren(); // Clear old form
 
-    const genreFilters = document.createElement("input");
-    genreFilters.type = "text";
-    genreFilters.placeholder = "Genres";
-    genreFilters.id = "genre-filters";
+  // Helper to create left-aligned rows
+  function createLeftAlignedRow(...elements) {
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.justifyContent = "flex-start";
+    row.style.alignItems = "center";
+    row.style.gap = "10px";
+    row.style.margin = "10px 0";
+    elements.forEach((el) => row.appendChild(el));
+    return row;
+  }
 
-    const tagFilters = document.createElement("input");
-    tagFilters.type = "text";
-    tagFilters.placeholder = "Tags";
-    tagFilters.id = "tag-filters";
+  // Username Input
+  const userName1 = document.createElement("input");
+  userName1.type = "text";
+  userName1.id = "first-username";
+  userName1.placeholder = "Your AniList Username";
 
-    const finished_label = document.createElement("label");
-    finished_label.htmlFor = "finished";
-    finished_label.innerHTML = "Finished";
-    const finished = document.createElement("input");
-    finished.type = "checkbox";
-    finished.id = "finished";
+  const userRow = createLeftAlignedRow(userName1);
 
-    const releasing_label = document.createElement("label");
-    releasing_label.htmlFor = "releasing";
-    releasing_label.innerHTML = "Releasing";
-    const releasing = document.createElement("input");
-    releasing.type = "checkbox";
-    releasing.id = "releasing";
+  // Genre & Tag Filters
+  const genreFilters = document.createElement("input");
+  genreFilters.type = "text";
+  genreFilters.placeholder = "Genres";
+  genreFilters.id = "genre-filters";
 
-    const not_yet_released_label = document.createElement("label");
-    not_yet_released_label.htmlFor = "not_yet_released";
-    not_yet_released_label.innerHTML = "Not yet released"
-    const not_yet_released = document.createElement("input");
-    not_yet_released.type = "checkbox";
-    not_yet_released.id = "not_yet_released";
+  const tagFilters = document.createElement("input");
+  tagFilters.type = "text";
+  tagFilters.placeholder = "Tags";
+  tagFilters.id = "tag-filters";
 
-    const cancelled_label = document.createElement("label");
-    cancelled_label.htmlFor = "cancelled";
-    cancelled_label.innerHTML = "Cancelled";
-    const cancelled = document.createElement("input");
-    cancelled.type = "checkbox";
-    cancelled.id = "cancelled";
+  const filterRow = createLeftAlignedRow(genreFilters, tagFilters);
 
-    const hiatus_label = document.createElement("label");
-    hiatus_label.htmlFor = "hiatus";
-    hiatus_label.innerHTML = "Hiatus";
-    const hiatus = document.createElement("input");
-    hiatus.type = "checkbox";
-    hiatus.id = "hiatus";
+  // Status Checkboxes
+  const statuses = [
+    { id: "finished", label: "Finished" },
+    { id: "releasing", label: "Releasing" },
+    { id: "not_yet_released", label: "Not Yet Released" },
+    { id: "cancelled", label: "Cancelled" },
+    { id: "hiatus", label: "Hiatus" },
+  ];
 
-    const submit_for_all_recommendations = document.createElement("button");
-    submit_for_all_recommendations.innerHTML = "Submit";
-    submit_for_all_recommendations.onclick = showAllRecommendationsFunctionality;
-    
-    document.getElementById("show-all-recommendations").append(userName1, genreFilters, tagFilters, finished, finished_label,
-        releasing, releasing_label, not_yet_released, not_yet_released_label, cancelled, cancelled_label, hiatus, hiatus_label, submit_for_all_recommendations);
+  const statusElements = statuses.map(({ id, label }) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = id;
+    const checkboxLabel = document.createElement("label");
+    checkboxLabel.htmlFor = id;
+    checkboxLabel.textContent = label;
+    wrapper.append(checkbox, checkboxLabel);
+    return wrapper;
+  });
 
-    const inputGenre = genreFilters;
-        genreWhitelist = ["action", "adventure", "comedy", "drama", "ecchi", "fantasy", "horror", "mahou shoujo", "mecha", "music", "mystery", "psychological", "romance", "sci-fi", "slice of life",
-            "sports", "supernatural", "thriller"];
+  const statusRow = createLeftAlignedRow(...statusElements);
 
-        new Tagify(inputGenre, {
-            // Only allow tags from whitelist
-            enforceWhitelist: true,
-            // Use whitelist tags
-            whitelist: genreWhitelist,
-            // From genres, use map to go through every index and get the value of each index
-            originalInputValueFormat: genres => genres.map(index => index.value)
-    });
-    
-    const inputTag = tagFilters;
-    genreWhitelist = ["4-koma", "achromatic", "achronological order", "acrobatics", "acting", "adoption", "advertisement", "afterlife",
-        "age gap", "age regression", "agender", "agriculture", "airsoft", "alchemy", "aliens", "alternate universe", "american football",
-        "amnesia", "anachronism", "ancient china", "angels", "animals", "anthology", "anthropomorphism", "anti-hero", "archery", "aromantic",
-        "arranged marriage", "artificial intelligence", "asexual", "assassins", "astronomy", "athletics", "augmented reality", "autobiographical",
-        "aviation", "badminton", "band", "bar", "baseball", "basketball", "battle royale", "biographical", "bisexual", "blackmail", "board game",
-        "boarding school", "body horror", "body image", "body swapping", "bowling", "boxing", "boys' love", "bullying", "butler", "calligraphy",
-        "camping", "cannibalism", "card battle", "cars", "centaur", "cgi", "cheerleading", "chibi", "chimera", "chuunibyou", "circus", "class struggle",
-        "classic literature", "classical music", "clone", "coastal", "cohabitation", "college", "coming of age", "conspiracy", "cosmic horror",
-        "cosplay", "cowboys", "creature training", "crime", "criminal organizion", "crossdressing", "crossover", "cute boys doing cute things",
-        "cute girls doing cute things", "cyberpunk", "cyborg", "cycling", "dancing", "delinquents", "desert", "detective", "dinosaurs", "disability",
-        "dissociative identities", "dragons", "drawing", "dunegon", "dystopian", "economics", "educational", "elderly protagonist", "elf", "ensemble cast",
-        "environmental", "episodic", "fairy", "fairy tale", "fake relationship", "family life", "fashion", "female harem", "female protagonist", "fencing",
-        "firefighters", "fishing", "fitness"];
+  // Submit Button
+  const submitBtn = document.createElement("button");
+  submitBtn.innerText = "Submit";
+  submitBtn.onclick = showAllRecommendationsFunctionality;
+  const buttonRow = createLeftAlignedRow(submitBtn);
 
-    new Tagify(inputTag, {
-    // Only allow tags from whitelist
+  // Append all to container
+  container.append(userRow, filterRow, statusRow, buttonRow);
+
+  // Tagify setup
+  const genreWhitelist = [
+    "action",
+    "adventure",
+    "comedy",
+    "drama",
+    "ecchi",
+    "fantasy",
+    "horror",
+    "mahou shoujo",
+    "mecha",
+    "music",
+    "mystery",
+    "psychological",
+    "romance",
+    "sci-fi",
+    "slice of life",
+    "sports",
+    "supernatural",
+    "thriller",
+  ];
+
+  new Tagify(genreFilters, {
     enforceWhitelist: true,
-    // Use whitelist tags
     whitelist: genreWhitelist,
-    originalInputValueFormat: tags => tags.map(index => index.value)
-});
+    originalInputValueFormat: (genres) => genres.map((index) => index.value),
+  });
+
+  const tagWhitelist = [
+    "4-koma",
+    "acting",
+    "adoption",
+    "afterlife",
+    "alchemy",
+    "aliens",
+    "alternate universe",
+    "angels",
+    "animals",
+    "anti-hero",
+    "assassins",
+    "augmented reality",
+    "aviation",
+    "badminton",
+    "band",
+    "bar",
+    "baseball",
+    "basketball",
+    "biographical",
+    "bullying",
+    "butler",
+    "calligraphy",
+    "camping",
+    "card battle",
+    "cars",
+    "cheerleading",
+    "circus",
+    "college",
+    "coming of age",
+    "conspiracy",
+    "cosplay",
+    "crime",
+    "crossdressing",
+    "cyberpunk",
+    "cyborg",
+    "dancing",
+    "detective",
+    "dragons",
+    "dystopian",
+    "education",
+    "elf",
+    "family life",
+    "fashion",
+    "female harem",
+    "firefighters",
+    "fishing",
+  ];
+
+  new Tagify(tagFilters, {
+    enforceWhitelist: true,
+    whitelist: tagWhitelist,
+    originalInputValueFormat: (tags) => tags.map((index) => index.value),
+  });
 }
 
 function showAllRecommendationsFunctionality() {
-    
-    const genreFilters = document.getElementById("genre-filters").value.split(',');
-    console.log("this is genreFilters",genreFilters)
-    const tagFilters = document.getElementById("tag-filters").value.split(',');
-    console.log("this is genreFilters",tagFilters)
+  const genreFilters = document
+    .getElementById("genre-filters")
+    .value.split(",")
+    .filter((g) => g.trim() !== "");
+  const tagFilters = document
+    .getElementById("tag-filters")
+    .value.split(",")
+    .filter((t) => t.trim() !== "");
 
-    const statusList = [];
-    console.log("statusList before",statusList);
-    if (document.getElementById("finished").checked == false) {
-        console.log("finished is unchecked");
-    }
-    else {
-        console.log("finished is checked");
-        statusList.push("FINISHED");
-    }
+  if (document.getElementById("finished").checked) statusList.push("FINISHED");
+  if (document.getElementById("releasing").checked)
+    statusList.push("RELEASING");
+  if (document.getElementById("not_yet_released").checked)
+    statusList.push("NOT_YET_RELEASED");
+  if (document.getElementById("cancelled").checked)
+    statusList.push("CANCELLED");
+  if (document.getElementById("hiatus").checked) statusList.push("HIATUS");
 
-    if (document.getElementById("releasing").checked == false) {
-        console.log("releasing is unchecked");
-    }
-    else {
-        console.log("releasing is checked");
-        statusList.push("RELEASING");
-    }
+  const userName1 = document.getElementById("first-username").value;
 
-    if (document.getElementById("not_yet_released").checked == false) {
-        console.log("not yet released is unchecked");
-    }
-    else {
-        console.log("not_yet_released is checked");
-        statusList.push("NOT_YET_RELEASED");
-    }
+  if (!genreFilters.length && !tagFilters.length && !statusList.length) {
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Filters",
+      text: "Only user name has been entered, please enter all categories.",
+    });
+    return;
+  }
 
-    if (document.getElementById("cancelled").checked == false) {
-        console.log("cancelled is unchecked");
-    }
-    else {
-        console.log("cancelled is checked");
-        statusList.push("CANCELLED");
-    }
+  if (
+    (genreFilters.length > 0 && tagFilters.length === 0) ||
+    (tagFilters.length > 0 && genreFilters.length === 0)
+  ) {
+    Swal.fire({
+      icon: "warning",
+      title: "Incomplete Filters",
+      text: "Please enter both genres and tags, not just one.",
+    });
+    return;
+  }
 
-    if (document.getElementById("hiatus").checked == false) {
-        console.log("hiatus is unchecked");
-    }
-    else {
-        console.log("hiatus is checked");
-        statusList.push("HIATUS");
-    }
-    console.log("statusList after",statusList);
+  console.log("THIS IS USERNAME1", userName1);
+  userList1(userName1);
+  anime(genreFilters, tagFilters, statusList);
 
-    const userName1 = document.getElementById("first-username").value;
-    // const userName2 = document.getElementById("second-username").value;
-    const userName2 = "username";
+  if (!genreFilters.length && !tagFilters.length && !statusList.length) {
+    Swal.fire({
+      icon: "warning",
+      title: "No Filters Selected",
+      text: "You’ve entered your username, but you must also select at least one genre, tag, or status to get recommendations.",
+    });
+    return;
+  }
 
-    console.log("THIS IS USERNAME1", userName1);
-    console.log(userName2);
-
-    userList1(userName1);
-    anime(genreFilters, tagFilters, statusList);
-
-    }
-
+  if (!genreFilters.length && !tagFilters.length && statusList.length > 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Genre and Tag",
+      text: "You selected status filters, but you must also select at least one genre and one tag.",
+    });
+    return;
+  }
+}
 
 function compareList() {
-    document.getElementById("show-compare-list").replaceChildren();
-    const userName1 = document.createElement("input");
-    userName1.type = "text";
-    userName1.id = "first-username";
+  const container = document.getElementById("show-compare-list");
+  container.replaceChildren(); // Clear previous content
 
-    const userName2 = document.createElement("input");
-    userName2.type = "text";
-    userName2.id = "second-username";
+  // Helper to create left-aligned rows
+  function createLeftAlignedRow(...elements) {
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.justifyContent = "flex-start"; // Align left
+    row.style.alignItems = "center";
+    row.style.gap = "10px";
+    row.style.margin = "10px 0";
+    elements.forEach((el) => row.appendChild(el));
+    return row;
+  }
 
-    const current_label = document.createElement("label");
-    current_label.htmlFor = "current";
-    current_label.innerHTML = "Current";
-    const current = document.createElement("input");
-    current.type = "checkbox";
-    current.id = "current";
+  // Username Inputs
+  const userName1 = document.createElement("input");
+  userName1.type = "text";
+  userName1.id = "first-username";
+  userName1.placeholder = "Your AniList Username";
 
-    const planning_label = document.createElement("label");
-    planning_label.htmlFor = "planning";
-    planning_label.innerHTML = "Planning";
-    const planning = document.createElement("input");
-    planning.type = "checkbox";
-    planning.id = "planning";
+  const userName2 = document.createElement("input");
+  userName2.type = "text";
+  userName2.id = "second-username";
+  userName2.placeholder = "Other User's Username";
 
-    const completed_label = document.createElement("label");
-    completed_label.htmlFor = "completed";
-    completed_label.innerHTML = "Completed";
-    const completed = document.createElement("input");
-    completed.type = "checkbox";
-    completed.id = "completed";
+  const userRow = createLeftAlignedRow(userName1, userName2);
 
-    const dropped_label = document.createElement("label");
-    dropped_label.htmlFor = "dropped";
-    dropped_label.innerHTML = "Dropped";
-    const dropped = document.createElement("input");
-    dropped.type = "checkbox";
-    dropped.id = "dropped";
+  // Status Checkboxes
+  const statuses = [
+    { id: "current", label: "Current" },
+    { id: "planning", label: "Planning" },
+    { id: "completed", label: "Completed" },
+    { id: "dropped", label: "Dropped" },
+    { id: "paused", label: "Paused" },
+    { id: "repeating", label: "Repeating" },
+  ];
 
-    const paused_label = document.createElement("label");
-    paused_label.htmlFor = "paused";
-    paused_label.innerHTML = "Paused";
-    const paused = document.createElement("input");
-    paused.type = "checkbox";
-    paused.id = "paused";
+  const checkboxElements = statuses.map(({ id, label }) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = id;
+    const checkboxLabel = document.createElement("label");
+    checkboxLabel.htmlFor = id;
+    checkboxLabel.textContent = label;
+    wrapper.append(checkbox, checkboxLabel);
+    return wrapper;
+  });
 
-    const repeating_label = document.createElement("label");
-    repeating_label.htmlFor = "repeating";
-    repeating_label.innerHTML = "Repeating";
-    const repeating = document.createElement("input");
-    repeating.type = "checkbox";
-    repeating.id = "repeating";
+  const checkboxRow = createLeftAlignedRow(...checkboxElements);
 
-    const submit_for_compare_list = document.createElement("button");
-    submit_for_compare_list.innerHTML = "Submit!!!!!";
-    submit_for_compare_list.onclick = compareListFunctionality;
+  // Submit Button
+  const submitBtn = document.createElement("button");
+  submitBtn.innerText = "Submit";
+  submitBtn.onclick = compareListFunctionality;
+  const buttonRow = createLeftAlignedRow(submitBtn);
 
-    document.getElementById("show-compare-list").append(userName1, userName2, current, current_label, planning, planning_label,
-        completed, completed_label, dropped, dropped_label, paused, paused_label, repeating, repeating_label, submit_for_compare_list);
+  // Append all to container
+  container.append(userRow, checkboxRow, buttonRow);
 }
+
+document.getElementById("compare-table").replaceChildren();
 
 async function compareListFunctionality() {
-    const userName1 = document.getElementById("first-username").value;
-    const userName2 = document.getElementById("second-username").value;
+  document.getElementById("compare-table").replaceChildren();
 
-    const userStatusList = [];
-    console.log("userStatusList before",userStatusList);
-    if (document.getElementById("current").checked == false) {
-        console.log("current is unchecked");
-    }
-    else {
-        console.log("current is checked");
-        userStatusList.push("CURRENT");
-    }
+  const userName1 = document.getElementById("first-username").value;
+  const userName2 = document.getElementById("second-username").value;
 
-    if (document.getElementById("planning").checked == false) {
-        console.log("planning is unchecked");
-    }
-    else {
-        console.log("planning is checked");
-        userStatusList.push("PLANNING");
-    }
+  const userStatusList = [];
 
-    if (document.getElementById("completed").checked == false) {
-        console.log("completed is unchecked");
-    }
-    else {
-        console.log("completed is checked");
-        userStatusList.push("COMPLETED");
-    }
+  if (document.getElementById("current").checked)
+    userStatusList.push("CURRENT");
+  if (document.getElementById("planning").checked)
+    userStatusList.push("PLANNING");
+  if (document.getElementById("completed").checked)
+    userStatusList.push("COMPLETED");
+  if (document.getElementById("dropped").checked)
+    userStatusList.push("DROPPED");
+  if (document.getElementById("paused").checked) userStatusList.push("PAUSED");
+  if (document.getElementById("repeating").checked)
+    userStatusList.push("REPEATING");
 
-    if (document.getElementById("dropped").checked == false) {
-        console.log("dropped is unchecked");
-    }
-    else {
-        console.log("dropped is checked");
-        userStatusList.push("DROPPED");
-    }
-
-    if (document.getElementById("paused").checked == false) {
-        console.log("paused is unchecked");
-    }
-    else {
-        console.log("paused is checked");
-        userStatusList.push("PAUSED");
-    }
-
-    if (document.getElementById("repeating").checked == false) {
-        console.log("repeating is unchecked");
-    }
-    else {
-        console.log("repeating is checked");
-        userStatusList.push("REPEATING");
-    }
-    await userList1(userName1);
-    userList2(userName2, userStatusList);
-    console.log("this is userStatusList after", userStatusList);
+  await userList1(userName1);
+  userList2(userName2, userStatusList);
 }
 
-
 async function userList1(userName1) {
-    console.log("this is userList1 receiving userName1", userName1);
-        user1IdList.length = 0;
-    Object.keys(user1StatusList).forEach(key => delete user1StatusList[key]);
-    var query = `
+  console.log("this is userList1 receiving userName1", userName1);
+  user1IdList.length = 0;
+  Object.keys(user1StatusList).forEach((key) => delete user1StatusList[key]);
+  var query = `
     query ($type: MediaType, $userName: String, $status_in: [MediaListStatus]) {
         MediaListCollection(type: $type, userName: $userName, status_in: $status_in) {
             lists {
@@ -329,83 +364,70 @@ async function userList1(userName1) {
             }
             }`;
 
-    // Variables for query request
-    var variables = {
-	"userName": userName1,
-	"type": "ANIME",
-	"status_in": [
-		"CURRENT",
-		"COMPLETED",
-		"DROPPED",
-		"PAUSED",
-		"REPEATING"
-	    ]
-    };
+  // Variables for query request
+  var variables = {
+    userName: userName1,
+    type: "ANIME",
+    status_in: ["CURRENT", "COMPLETED", "DROPPED", "PAUSED", "REPEATING"],
+  };
 
-    var url = 'https://graphql.anilist.co',
+  console.log("Sending query variables:", variables);
+
+  var url = "https://graphql.anilist.co",
     options = {
-        method: 'POST', //send data to API
-        headers: {
-            'Content-Type': 'application/json', //data being sent is JSON
-            'Accept': 'application/json', //expect JSON response
-        },
-        body: JSON.stringify({
-            query: query,
-            variables: variables
-        })
+      method: "POST", //send data to API
+      headers: {
+        "Content-Type": "application/json", //data being sent is JSON
+        Accept: "application/json", //expect JSON response
+      },
+      body: JSON.stringify({
+        query: query,
+        variables: variables,
+      }),
     };
 
-    // Make the HTTP Api request
-    await fetch(url, options)
-        .then(handleResponse)
-        .then(handleData)
-        .catch(handleError);
+  // Make the HTTP Api request
+  await fetch(url, options)
+    .then(handleResponse)
+    .then(handleData)
+    .catch(handleError); // <-- only run on failure
 
-    function handleResponse(response) {
-        return response.json().then(function (json) {
-            return response.ok ? json : Promise.reject(json);
-        });
-    }
-
-    function handleData(userData1) {
-        console.log(userData1);
-        // get all the IDs in userName1 anime list
-        userData1.data.MediaListCollection.lists.forEach((list) => {
-            list.entries.forEach((entry) => {
-                // if entry.status is included in this list then push user1Id
-                // only added this because the status variables aren't working like i want them to
-                // might have to just remove the status variables if can't figure it out
-                if (["CURRENT", "COMPLETED", "DROPPED", "PAUSED", "REPEATING"].includes(entry.status)) {
-                const user1Id = entry.media.id;
-                console.log("this is userId", user1Id);
-                user1IdList.push(user1Id);
-                    console.log("this is user1IdList for the first time",user1IdList);
-                }
-                user1StatusList[entry.media.id] = entry.status;
-            })
-        })
-        console.log("this is user1IdList", user1IdList);
-        // userData1.data.MediaListCollection.lists.forEach((list) => {
-        //     list.entries.forEach((entry) => {
-        //         user1StatusList.push(entry.status);
-        //     })
-        // })
-    }
-
-    function handleError(error) {
-            Swal.fire({
-        icon: 'error',
-        title: 'Failed to Load User List',
-        text: 'Something went wrong. Check the console for details.',
+  function handleResponse(response) {
+    return response.json().then(function (json) {
+      return response.ok ? json : Promise.reject(json);
     });
-    }
+  }
 
+  function handleData(userData1) {
+    // your existing logic...
+  }
+
+  function handleError(error) {
+    console.error(error); // helpful for debugging
+    Swal.fire({
+      icon: "error",
+      title: "Compare Failed",
+      text: "Could not fetch user 1 list.",
+    });
+  }
+
+  function handleError(error) {
+    Swal.fire({
+      icon: "check",
+      title: "Loading compare list",
+      text: "Comparison has been found.",
+    });
+  }
 }
 
 userName2CompareList = [];
 function userList2(userName2, userStatusList) {
-    console.log("this is userList2 receiving userName2 and userStatusList", userName2, userStatusList);
-    var query = `
+  console.log(
+    "this is userList2 receiving userName2 and userStatusList",
+    userName2,
+    userStatusList
+  );
+  var query = `
     query ($type: MediaType, $userName: String, $status_in: [MediaListStatus]) {
         MediaListCollection(type: $type, userName: $userName, status_in: $status_in) {
             lists {
@@ -423,213 +445,243 @@ function userList2(userName2, userStatusList) {
             }
             }`;
 
-    // Variables for query request
-        var variables = {
-    "userName": userName2,
-    "type": "ANIME",
-    "status_in": userStatusList
-    };
+  // Variables for query request
+  var variables = {
+    userName: userName2,
+    type: "ANIME",
+    status_in: userStatusList,
+  };
 
-    var url = 'https://graphql.anilist.co',
+  var url = "https://graphql.anilist.co",
     options = {
-        method: 'POST', //send data to API
-        headers: {
-            'Content-Type': 'application/json', //data being sent is JSON
-            'Accept': 'application/json', //expect JSON response
-        },
-        body: JSON.stringify({
-            query: query,
-            variables: variables
-        })
+      method: "POST", //send data to API
+      headers: {
+        "Content-Type": "application/json", //data being sent is JSON
+        Accept: "application/json", //expect JSON response
+      },
+      body: JSON.stringify({
+        query: query,
+        variables: variables,
+      }),
     };
 
-    // Make the HTTP Api request
-    fetch(url, options)
-        .then(handleResponse)
-        .then(handleData)
-        .catch(handleError);
+  // Make the HTTP Api request
+  fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
 
-    function handleResponse(response) {
-        return response.json().then(function (json) {
-            return response.ok ? json : Promise.reject(json);
-        });
-    }
+  function handleResponse(response) {
+    return response.json().then(function (json) {
+      return response.ok ? json : Promise.reject(json);
+    });
+  }
 
-    function handleData(userData2) {
-        console.log("this is userData2",userData2);
-                userData2.data.MediaListCollection.lists.forEach((list) => {
-            list.entries.forEach((entry) => {
-                // if (user1IdList.includes(entry.media.id)) {
-                //     commonUser1Id.push(entry.media.id)
-                // }
-                const tableRow = document.createElement("tr");
-                const animeName = document.createElement("td");
-                const animeStatus1 = document.createElement("td");
-                const animeStatus2 = document.createElement("td");
-                console.log("THIS IS USER1IDLIST AGAIN", user1IdList);
-                animeName.innerHTML = entry.media.title.english || entry.media.title.romaji;
-                animeStatus2.innerHTML = entry.status;
-                animeStatus1.innerHTML = user1StatusList[entry.media.id];
-                if (user1StatusList[entry.media.id] == undefined) {
-                    animeStatus1.innerHTML = "haven't watched";
-                }
+  function handleData(userData2) {
+    console.log("this is userData2", userData2);
 
-                tableRow.append(animeName);
-                tableRow.append(animeStatus2);
-                tableRow.append(animeStatus1);
+    const compareTable = document.getElementById("compare-table");
+    compareTable.replaceChildren(); // Clear the entire table
 
-                document.getElementById("compare-table").append(tableRow);
-                console.log("this is userName2CompareList after", userName2CompareList);
+    // Create table head
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
 
-            })
-        })
-    }
+    const animeHeader = document.createElement("th");
+    animeHeader.textContent = "Anime";
 
-    function handleError(error) {
+    const user2Header = document.createElement("th");
+    user2Header.textContent = `${
+      userData2.data.MediaListCollection.lists[0]?.entries[0]?.media.title
+        .english
+        ? "User 2 Status"
+        : "User 2"
+    }`;
+
+    const user1Header = document.createElement("th");
+    user1Header.textContent = "User 1 Status";
+
+    headRow.append(animeHeader, user2Header, user1Header);
+    thead.append(headRow);
+    compareTable.append(thead);
+
+    // Create table body
+    const tbody = document.createElement("tbody");
+
+    userData2.data.MediaListCollection.lists.forEach((list) => {
+      list.entries.forEach((entry) => {
+        const tableRow = document.createElement("tr");
+
+        const animeName = document.createElement("td");
+        animeName.textContent =
+          entry.media.title.english || entry.media.title.romaji;
+
+        const animeStatus2 = document.createElement("td");
+        animeStatus2.textContent = entry.status;
+
+        const animeStatus1 = document.createElement("td");
+        animeStatus1.textContent =
+          user1StatusList[entry.media.id] ?? "haven't watched";
+
+        tableRow.append(animeName, animeStatus2, animeStatus1);
+        tbody.append(tableRow);
+      });
+    });
+
+    compareTable.append(tbody);
+  }
+
+  function handleError(error) {
     Swal.fire({
-        icon: 'error',
-        title: 'Failed to Load Recommendations',
-        text: 'There was an issue fetching anime suggestions.',
+      icon: "error",
+      title: "Failed to Load Recommendations",
+      text: "There was an issue fetching anime suggestions.",
     });
     console.error(error);
-}
-
+  }
 }
 const recommendationsList = [];
 function anime(genreFilters, tagFilters, statusList) {
-    console.log("this is anime receiving genreFilters, tagFilters, statusList", genreFilters, tagFilters, statusList);
-        var query = `
-        query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [String], $status: [MediaStatus]) {
-        Page(perPage: $perPage, page: $page) {
-            media(type: $type, genre_in: $genre, tag_in: $tag, status_in: $status) {
-                id
-                title {
-                    romaji
-                    english
-                }
-                genres
-                tags {
-                    name
-                }
-            }
-        }
-        }
-        `;
+  console.log("Final statusList going to anime():", statusList);
 
-    // Define our query variables and values that will be used in the query request
-    var variables =
-    {
-        "type": "ANIME",
-        "perPage": 50,
-        "page": 1,
-        "genre": genreFilters,
-        "tag": tagFilters,
-        // "status": statusList
-    };
-
-    if (statusList > 0) {
-        variables.status = statusList;
+  console.log(
+    "this is anime receiving genreFilters, tagFilters, statusList",
+    genreFilters,
+    tagFilters,
+    statusList
+  );
+  var query = `
+query ($type: MediaType, $perPage: Int, $page: Int, $genre: [String], $tag: [String], $status: [MediaStatus]) {
+  Page(perPage: $perPage, page: $page) {
+    media(type: $type, genre_in: $genre, tag_in: $tag, status_in: $status) {
+      id
+      title {
+        romaji
+        english
+      }
+      status
+      genres
+      tags {
+        name
+      }
     }
+  }
+}
+`;
+  console.log("statusList being passed:", statusList);
 
-    // Define the config we'll need for our Api request
-    var url = 'https://graphql.anilist.co',
+  // Define our query variables and values that will be used in the query request
+  var variables = {
+    type: "ANIME",
+    perPage: 50,
+    page: 1,
+    genre: genreFilters,
+    tag: tagFilters,
+    status: statusList,
+  };
+
+  console.log("Query variables being sent to AniList:", variables);
+
+  if (statusList > 0) {
+    variables.status = statusList;
+  }
+
+  // Define the config we'll need for our Api request
+  var url = "https://graphql.anilist.co",
     options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            query: query,
-            variables: variables
-        })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        query: query,
+        variables: variables,
+      }),
     };
 
-    // Make the HTTP Api request
-    fetch(url, options)
-        .then(handleResponse)
-        .then(handleData)
-        .catch(handleError);
+  // Make the HTTP Api request
+  fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
 
-    function handleResponse(response) {
-        return response.json().then(function (json) {
-            return response.ok ? json : Promise.reject(json);
-        });
-        }
+  function handleResponse(response) {
+    return response.json().then(function (json) {
+      return response.ok ? json : Promise.reject(json);
+    });
+  }
 
-    function handleData(animeData) {
-        animeData.data.Page.media.forEach((media1) => {
-            console.log("this is media1", media1);
-            if (!user1IdList.includes(media1.id)) {
-                recommendationsList.push(media1);
-                const recommendations = document.createElement('p');
-                recommendations.innerHTML = media1.title.english || media1.title.romaji;
+  function handleData(animeData) {
+    document.getElementById("all-recommendations-div").replaceChildren();
 
-                const saveBtn = document.createElement("button");
-                saveBtn.innerText = "Save to Favorites";
-                saveBtn.onclick = () => saveRecommendation(
-                    media1.title.english || media1.title.romaji,
-                    media1.id
-);
+    animeData.data.Page.media.forEach((media1) => {
+      console.log("this is media1", media1);
+      if (!user1IdList.includes(media1.id)) {
+        recommendationsList.push(media1);
+        const recommendations = document.createElement("p");
+        recommendations.innerHTML = media1.title.english || media1.title.romaji;
 
-                const container = document.createElement('div'); 
-                container.append(recommendations);
-                container.append(saveBtn);
+        const saveBtn = document.createElement("button");
+        saveBtn.innerText = "Save to Favorites";
+        saveBtn.onclick = () =>
+          saveRecommendation(
+            media1.title.english || media1.title.romaji,
+            media1.id
+          );
 
-                document.getElementById("all-recommendations-div").append(container);
-                
-            }
-        });
-        console.log(animeData);
-        console.log("this is recommendations", recommendationsList);
-        }
+        const container = document.createElement("div");
+        container.append(recommendations);
+        container.append(saveBtn);
 
-    function handleError(error) {
+        document.getElementById("all-recommendations-div").append(container);
+      }
+    });
+    console.log(animeData);
+    console.log("this is recommendations", recommendationsList);
+  }
+
+  function handleError(error) {
     Swal.fire({
-        icon: 'error',
-        title: 'Failed to Load Recommendations',
-        text: 'There was an issue fetching anime suggestions.',
+      icon: "error",
+      title: "Failed to Load Recommendations",
+      text: "There was an issue fetching anime suggestions.",
     });
     console.error(error);
-}
-
+  }
 }
 
 async function getSavedRecommendations() {
-    const username = document.getElementById("first-username").value;
+  const username = document.getElementById("first-username").value;
 
-    const response = await fetch(`http://127.0.0.1:3001/api/favorites/${username}`);
-    const data = await response.json();
+  const response = await fetch(
+    `http://127.0.0.1:3001/api/favorites/${username}`
+  );
+  const data = await response.json();
 
-    const container = document.getElementById("saved-recommendations");
-    container.innerHTML = "";
-    data.forEach((item) => {
-        const entry = document.createElement("p");
-        entry.innerText = `${item.anime_title} (ID: ${item.anime_id})`;
-        container.append(entry);
-    });
+  const container = document.getElementById("saved-recommendations");
+  container.innerHTML = "";
+  data.forEach((item) => {
+    const entry = document.createElement("p");
+    entry.innerText = `${item.anime_title} (ID: ${item.anime_id})`;
+    container.append(entry);
+  });
 }
 
 async function saveRecommendation(animeTitle, animeId) {
-    const username = document.getElementById("first-username").value;
+  const username = document.getElementById("first-username").value;
 
-    const response = await fetch("http://127.0.0.1:3001/api/favorites", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ 
-            username, 
-            anime_id: animeId, 
-            anime_title: animeTitle 
-        }),
-    });
+  const response = await fetch("http://127.0.0.1:3001/api/favorites", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username,
+      anime_id: animeId,
+      anime_title: animeTitle,
+    }),
+  });
 
-    const result = await response.json();
-    console.log("Saved to Supabase:", result);
+  const result = await response.json();
+  console.log("Saved to Supabase:", result);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  showAllRecommendations();  
+  showAllRecommendations();
   compareList();
 });
