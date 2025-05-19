@@ -970,7 +970,7 @@ async function getSavedRecommendations() {
   const username = document.getElementById("first-username").value;
 
   const response = await fetch(
-    `http://127.0.0.1:3001/api/favorites/${username}`
+    `https://inst-377-final-project-lac.vercel.app/api/favorites?username=${username}`
   );
   const data = await response.json();
 
