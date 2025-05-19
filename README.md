@@ -20,3 +20,9 @@ The API being used is https://graphql.anilist.co using this documentation https:
 API method used is POST to send the query and variables to the AniList API. This is to get information from the API using the specific query and variables sent.
 
 <h3>Bugs</h3>
+When on vecel, the main page load properly, but if you went to other page on come back, this message display
+404: NOT_FOUND
+Code: NOT_FOUND
+ID: iad1::jbzvm-1747626619456-ab82b18a7ad6
+
+On vecel, the show recommendation button, it's either extremely slow or it just doesn't show the anime you favorited right away.
