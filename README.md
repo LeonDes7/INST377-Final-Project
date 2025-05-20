@@ -27,4 +27,4 @@ ID: iad1::jbzvm-1747626619456-ab82b18a7ad6
 
 On Vercel, the show recommendation button, it's either extremely slow or it just doesn't show the anime you favorited right away.
 
-Manually type in "magkuette" for userName1 and "albiones for userName2
+Manually type in "magkuette" for userName1 and "mysteclipse" for userName2
